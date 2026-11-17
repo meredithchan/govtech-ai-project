@@ -1,6 +1,6 @@
 # One Pager
 
-Use case: [your chosen scenario (A, B, or C), written with synthetic data only]
+Use case: B: ICA passport applications and renewals
 
 ## Problem and user
 ## Opportunity and evidence
