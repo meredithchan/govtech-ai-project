@@ -34,3 +34,11 @@ These three leaders are imagined, with no real names. Their objections are made 
 ### What the prototype cannot prove
 
 It uses made-up data, so it cannot show that the real return rate falls below 17%, and it does not connect to the real Singpass. It only shows that applicants can follow the steps and understand the message.
+
+## Kill switch
+
+**Kill switch:** Users continue to face errors before submission.
+
+**Kill-switch signal:** High error rates on each page during submission.
+
+**Trigger:** The kill switch is triggered if the Singpass information ported into the form is edited in 3 out of 10 cases.
