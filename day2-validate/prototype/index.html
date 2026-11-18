@@ -3,25 +3,55 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Passport renewal guide - screen 1 (prototype, made-up data)</title>
+<title>Passport renewal guide (prototype, made-up data)</title>
 <style>
   body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f4f4f4; color: #222; }
   header { background: #444; color: #fff; padding: 12px 20px; }
   header strong { display: block; font-size: 18px; }
   header span { font-size: 13px; }
-  main { max-width: 560px; margin: 24px auto; background: #fff; border: 1px solid #ccc; padding: 24px; }
+  .wrap { max-width: 900px; margin: 24px auto; padding: 0 16px; display: flex; gap: 20px; align-items: flex-start; }
+  main { flex: 1; background: #fff; border: 1px solid #ccc; padding: 24px; }
+  aside { width: 280px; background: #fff; border: 1px solid #ccc; padding: 16px; display: none; font-size: 14px; }
+  aside.open { display: block; }
   .progress { font-size: 14px; color: #555; margin-bottom: 8px; }
   .bar { height: 8px; background: #ddd; margin-bottom: 20px; }
-  .bar div { height: 8px; background: #555; width: 20%; }
+  .bar div { height: 8px; background: #555; }
   h1 { font-size: 24px; margin: 0 0 16px; }
   .choice { display: block; border: 2px solid #aaa; padding: 16px; margin: 12px 0; font-size: 18px; cursor: pointer; }
   .choice:has(input:checked) { border-color: #222; background: #eee; }
   .choice input { margin-right: 10px; transform: scale(1.3); }
-  .hint { font-size: 14px; color: #555; margin: 4px 0 0 30px; }
-  button { font-size: 16px; padding: 10px 20px; margin-top: 16px; background: #333; color: #fff; border: 1px solid #333; cursor: pointer; }
-  button:disabled { background: #bbb; border-color: #bbb; cursor: not-allowed; }
-  #next-msg { margin-top: 12px; font-size: 14px; color: #555; }
+  .choice .sub { font-size: 14px; color: #555; margin: 4px 0 0 30px; }
+  button { font-size: 16px; padding: 10px 20px; margin: 16px 8px 0 0; background: #fff; color: #222; border: 1px solid #333; cursor: pointer; }
+  button.primary { background: #333; color: #fff; }
+  button:disabled { background: #bbb; border-color: #bbb; color: #fff; cursor: not-allowed; }
+  button.link { background: none; border: none; color: #0b57a4; text-decoration: underline; padding: 0; margin: 0 0 0 8px; font-size: 13px; }
+  .msg { margin-top: 12px; font-size: 14px; color: #555; }
   .made-up { font-size: 12px; color: #777; margin-top: 24px; }
+
+  /* Step 2: numbered path to follow */
+  .path { margin: 0; padding: 0; list-style: none; position: relative; }
+  .path::before { content: ""; position: absolute; left: 21px; top: 24px; bottom: 24px; width: 2px; background: #bbb; }
+  .stepcard { position: relative; display: flex; gap: 14px; align-items: flex-start; background: #fff; border: 2px solid #555; padding: 12px; margin: 0 0 14px 0; }
+  .stepcard .num { flex: none; width: 36px; height: 36px; line-height: 36px; text-align: center; border-radius: 50%; background: #333; color: #fff; font-weight: bold; font-size: 18px; z-index: 1; }
+  .stepcard .body { flex: 1; font-size: 18px; }
+  .stepcard .help { font-size: 14px; color: #555; margin-top: 6px; }
+  .stepcard.done { background: #eee; border-color: #bbb; color: #777; }
+  .stepcard.done .num { background: #888; }
+  .stepcard.done .body span.t { text-decoration: line-through; }
+  .stepcard button { margin: 0; padding: 8px 14px; }
+  .count { font-size: 16px; font-weight: bold; margin: 12px 0 0; }
+  .note { background: #eee; border-left: 4px solid #777; padding: 10px; font-size: 14px; margin-top: 16px; }
+
+  /* Forms */
+  label.f { display: block; font-weight: bold; margin-top: 18px; }
+  .hint { font-size: 13px; color: #555; margin: 2px 0 6px; font-weight: normal; }
+  input[type=text], input[type=date] { width: 100%; max-width: 360px; padding: 9px; font-size: 16px; box-sizing: border-box; }
+  .eg { border: 1px dashed #777; padding: 10px; margin: 8px 0; background: #fafafa; }
+  .photo { display: inline-block; width: 100px; height: 110px; border: 2px solid #777; text-align: center; font-size: 12px; margin: 4px 8px 4px 0; vertical-align: top; padding-top: 6px; box-sizing: border-box; }
+  .good { border-color: #2a7a2a; } .bad { border-color: #a00; }
+  dl.review dt { font-weight: bold; margin-top: 14px; }
+  dl.review dd { margin: 4px 0 0; }
+  @media (max-width: 760px) { .wrap { flex-direction: column; } aside { width: auto; } }
 </style>
 </head>
 <body>
@@ -30,40 +60,195 @@
   <span>PROTOTYPE. Not the real ICA site. Everything here is made up.</span>
 </header>
 
-<main>
-  <div class="progress">Step 1 of 5</div>
-  <div class="bar"><div></div></div>
-
-  <h1>Who is this passport for?</h1>
-
-  <label class="choice">
-    <input type="radio" name="who" value="self"> Myself
-  </label>
-  <label class="choice">
-    <input type="radio" name="who" value="child"> My child
-    <div class="hint">You are the parent. You get extra help.</div>
-  </label>
-
-  <button id="next" disabled>Next</button>
-  <div id="next-msg" aria-live="polite"></div>
-
-  <p class="made-up">Prototype screen 1 of 5. Made-up data only. Nothing is saved or sent.</p>
-</main>
+<div class="wrap">
+  <main id="main"></main>
+  <aside id="side" aria-live="polite"></aside>
+</div>
 
 <script>
-  var next = document.getElementById("next");
-  var msg = document.getElementById("next-msg");
-  var radios = document.querySelectorAll('input[name="who"]');
-  for (var i = 0; i < radios.length; i++) {
-    radios[i].addEventListener("change", function () {
-      next.disabled = false;
-      msg.textContent = "";
-    });
-  }
-  next.addEventListener("click", function () {
-    var who = document.querySelector('input[name="who"]:checked').value;
-    msg.textContent = "Next screen is not built yet. You chose: " + (who === "child" ? "my child" : "myself") + ".";
+var TOTAL = 5;
+
+var state = {
+  step: 1,
+  who: "",
+  done: {},
+  helpOpen: {},
+  stuck: false,
+  data: { name: "", dob: "", passportNo: "", childName: "", childDob: "" }
+};
+var stuckTimer = null;
+
+// Short, verb-first steps. Document names are made-up placeholders, not the real ICA list.
+var tasks = {
+  self: [
+    { t: "Get your current passport.", h: "Check the photo page is clear." },
+    { t: "Get a recent photo.", h: "Plain background. Face clear." },
+    { t: "Check your passport has not expired.", h: "Look at the expiry date." }
+  ],
+  child: [
+    { t: "Get your child's passport.", h: "Check the photo page is clear." },
+    { t: "Get your child's birth certificate.", h: "Can't find it? Ask customer service." },
+    { t: "Get a recent photo of your child.", h: "Plain background. Face clear." },
+    { t: "Get your own ID.", h: "Use your made-up ID in this prototype." },
+    { t: "Check the passport has not expired.", h: "Look at the expiry date." }
+  ]
+};
+
+// Picture examples open in the side panel so the form is not interrupted.
+var examples = {
+  name: '<div class="eg"><b>Made-up example</b><br>Tan Mei Ling</div>',
+  dob: '<div class="eg"><b>Made-up example</b><br>14 / 03 / 1990</div>',
+  passportNo: '<div class="eg"><b>Made-up example</b><br>E0000000X<br>Not a real number.</div>',
+  childName: '<div class="eg"><b>Made-up example</b><br>Tan Jia Hao</div>',
+  childDob: '<div class="eg"><b>Made-up example</b><br>02 / 09 / 2016</div>',
+  parentName: '<div class="eg"><b>Made-up example</b><br>Tan Mei Ling</div>',
+  photo: '<span class="photo good">Good<br><br>Face clear.<br>Plain background.</span><span class="photo bad">Not good<br><br>Face covered<br>or blurry.</span><p class="hint">Made-up pictures.</p>'
+};
+
+function $(id) { return document.getElementById(id); }
+function esc(s) {
+  return String(s).replace(/[&<>"]/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
   });
+}
+
+function showExample(key) {
+  $("side").className = "open";
+  $("side").innerHTML = "<b>Example</b>" + examples[key] +
+    '<button onclick="closeExample()">Close</button>';
+}
+function closeExample() { $("side").className = ""; $("side").innerHTML = ""; }
+function exLink(key) {
+  return '<button class="link" onclick="showExample(\'' + key + '\')">See an example</button>';
+}
+
+function head(title) {
+  return '<div class="progress">Step ' + state.step + ' of ' + TOTAL + '</div>' +
+    '<div class="bar"><div style="width:' + (state.step / TOTAL * 100) + '%"></div></div>' +
+    '<h1>' + title + '</h1>';
+}
+function nav(showBack, nextDisabled) {
+  return (showBack ? '<button onclick="go(-1)">Back</button>' : '') +
+    '<button class="primary" id="nextBtn" onclick="go(1)"' + (nextDisabled ? " disabled" : "") + '>Next</button>';
+}
+function footer() {
+  return '<p class="made-up">Prototype. Made-up data only. Nothing is saved or sent.</p>';
+}
+
+function saveFields() {
+  ["name", "dob", "passportNo", "childName", "childDob"].forEach(function (k) {
+    var el = $("f_" + k);
+    if (el) { state.data[k] = el.value; }
+  });
+}
+
+function go(d) {
+  saveFields();
+  state.step += d;
+  closeExample();
+  clearTimeout(stuckTimer);
+  render();
+}
+
+function setWho(w) {
+  if (state.who !== w) { state.done = {}; state.helpOpen = {}; state.stuck = false; }
+  state.who = w;
+  $("nextBtn").disabled = false;
+}
+
+function toggleDone(i) { state.done[i] = !state.done[i]; render(); }
+function toggleHelp(i) { state.helpOpen[i] = !state.helpOpen[i]; render(); }
+
+function doneCount() {
+  var list = tasks[state.who] || [], n = 0;
+  for (var i = 0; i < list.length; i++) { if (state.done[i]) { n++; } }
+  return n;
+}
+
+function fieldRow(key, label, type) {
+  var val = state.data[key === "parentName" ? "name" : key];
+  var id = key === "parentName" ? "name" : key;
+  return '<label class="f">' + label + exLink(key) + '</label>' +
+    '<input type="' + type + '" id="f_' + id + '" value="' + esc(val) + '">';
+}
+
+function render() {
+  var m = $("main"), h = "";
+
+  if (state.step === 1) {
+    h = head("Who is this passport for?") +
+      '<label class="choice"><input type="radio" name="who" ' + (state.who === "self" ? "checked" : "") +
+      ' onclick="setWho(\'self\')"> Myself</label>' +
+      '<label class="choice"><input type="radio" name="who" ' + (state.who === "child" ? "checked" : "") +
+      ' onclick="setWho(\'child\')"> My child<div class="sub">You are the parent. You get extra help.</div></label>' +
+      nav(false, !state.who);
+
+  } else if (state.step === 2) {
+    var list = tasks[state.who], total = list.length, n = doneCount(), cards = "";
+    list.forEach(function (x, i) {
+      var isDone = !!state.done[i];
+      cards += '<li class="stepcard' + (isDone ? " done" : "") + '">' +
+        '<div class="num">' + (isDone ? "&#10003;" : (i + 1)) + '</div>' +
+        '<div class="body"><span class="t">' + esc(x.t) + '</span>' +
+        '<button class="link" onclick="toggleHelp(' + i + ')">Need help?</button>' +
+        (state.helpOpen[i] ? '<div class="help">' + esc(x.h) + '</div>' : "") + '</div>' +
+        '<button onclick="toggleDone(' + i + ')">' + (isDone ? "Undo" : "Done") + '</button></li>';
+    });
+    h = head("Get these ready") +
+      '<ol class="path">' + cards + '</ol>' +
+      '<div class="count">' + n + ' of ' + total + ' done</div>' +
+      (state.who === "child" && state.stuck ? '<div class="note">Stuck? Ask customer service.</div>' : "") +
+      nav(true, n < total);
+    if (state.who === "child" && !state.stuck) {
+      stuckTimer = setTimeout(function () { state.stuck = true; if (state.step === 2) { render(); } }, 15000);
+    }
+
+  } else if (state.step === 3) {
+    var child = state.who === "child";
+    h = head("Your details") +
+      (child
+        ? fieldRow("childName", "Child's full name", "text") +
+          fieldRow("childDob", "Child's date of birth", "date") +
+          fieldRow("parentName", "Your full name", "text")
+        : fieldRow("name", "Full name", "text") +
+          fieldRow("dob", "Date of birth", "date")) +
+      fieldRow("passportNo", child ? "Child's passport number" : "Passport number", "text") +
+      '<p class="hint">Use made-up details only here.</p>' +
+      nav(true, false);
+
+  } else if (state.step === 4) {
+    h = head("Add a photo") +
+      '<p>Pick a photo from your phone or camera.' + exLink("photo") + '</p>' +
+      '<input type="file" accept="image/*">' +
+      '<p class="hint">Not saved. Never edited.</p>' +
+      nav(true, false);
+
+  } else {
+    var d = state.data, c = state.who === "child";
+    h = head("Check your answers") +
+      '<p>Change anything here.</p><dl class="review">' +
+      (c
+        ? '<dt>Child\'s full name</dt><dd><input type="text" id="f_childName" value="' + esc(d.childName) + '"></dd>' +
+          '<dt>Child\'s date of birth</dt><dd><input type="date" id="f_childDob" value="' + esc(d.childDob) + '"></dd>' +
+          '<dt>Your full name</dt><dd><input type="text" id="f_name" value="' + esc(d.name) + '"></dd>'
+        : '<dt>Full name</dt><dd><input type="text" id="f_name" value="' + esc(d.name) + '"></dd>' +
+          '<dt>Date of birth</dt><dd><input type="date" id="f_dob" value="' + esc(d.dob) + '"></dd>') +
+      '<dt>' + (c ? "Child's passport number" : "Passport number") + '</dt>' +
+      '<dd><input type="text" id="f_passportNo" value="' + esc(d.passportNo) + '"></dd></dl>' +
+      '<div class="note">An ICA officer makes the final decision.</div>' +
+      '<button onclick="go(-1)">Back</button><button class="primary" onclick="finish()">Finish</button>';
+  }
+  m.innerHTML = h + footer();
+}
+
+function finish() {
+  saveFields();
+  $("main").innerHTML = '<h1>End of prototype</h1>' +
+    '<p>The real service would submit here. This prototype sends nothing.</p>' +
+    '<button class="primary" onclick="location.reload()">Start again</button>' + footer();
+}
+
+render();
 </script>
 </body>
 </html>
