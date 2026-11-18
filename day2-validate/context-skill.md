@@ -33,6 +33,7 @@ Every claim the assistant makes must cite one of these. All are made up.
 9. **Plain language.** Short sentences. One action per step. Verb first (S5).
 10. **Never ask for real data.** No real NRIC, passport number or name. Use made-up examples only.
 11. **If the source does not say, say so.** Do not guess. Send the applicant to customer service.
+12. **If Singpass flags the applicant as not eligible, stop.** Do not show the form or the document list. Do not say why. Say the renewal cannot go ahead online, send them to customer service, and say an ICA officer decides (S3, S2, S5).
 
 ## Two good examples
 
@@ -87,6 +88,7 @@ Review this file when any one of these happens:
 - Any source (S1 to S5) changes.
 - Customer service reports a new kind of question or a new return reason.
 - Singpass changes which fields it sends.
+- Singpass changes how it flags applicants.
 
 Until a trigger happens, review it once every three months.
 
@@ -101,3 +103,5 @@ Use made-up testers. Mark an answer as passing only if it matches the expected a
 | 3 | Do I need to print my NRIC or bring proof of address? | No. Neither is needed (S1). |
 | 4 | Singpass did not send my date of birth. What do I do? | Type your date of birth in. Singpass did not send it (S3). You still gather the documents. |
 | 5 | I submitted my application. Does that mean I'm approved? | No. An ICA officer decides, and the application can still be returned (S5). |
+
+A flagged applicant (rule 12) is tested in the prototype tester view, case "Singpass flags applicant (not eligible)". The expected result is that they are stopped before the form and sent to customer service.

@@ -57,7 +57,7 @@ It uses made-up data, so it cannot show that the real return rate falls below 17
 
 **Kill switch:** Singpass fails to connect, or leaves relevant fields empty or wrong, for too many applicants. The Kill switch section below sets the number.
 
-**How the prototype tests it:** The first screen is a made-up "Sign in with Singpass". A tester view (labelled made up, not shown to applicants) picks one of four made-up cases: details correct, one detail wrong, details missing, Singpass unavailable. It counts each test as a success only if the connection works and every relevant field arrives. It also counts how many fields the applicant edits on "Check your details", which feeds the kill switch.
+**How the prototype tests it:** The first screen is a made-up "Sign in with Singpass". A tester view (labelled made up, not shown to applicants) picks one of four made-up cases: details correct, one detail wrong, details missing, Singpass unavailable. It counts each test as a success only if the connection works and every relevant field arrives. A fifth made-up case, "Singpass flags applicant (not eligible)", checks that a flagged applicant is stopped before the form (see "Flagged applicant test" below). It also counts how many fields the applicant edits on "Check your details", which feeds the kill switch.
 
 **What it cannot prove:** It does not call the real Singpass. It shows that the form handles each case clearly. It cannot show that the real connection works.
 
@@ -77,3 +77,17 @@ It uses made-up data, so it cannot show that the real return rate falls below 17
 **How the prototype tests it:** A quiz in the tester view, shown only after a connected Singpass sign-in. The quiz lists the needed documents mixed with made-up wrong ones. The list is different for parents and non-parents. An answer counts as right only if every needed document is ticked and no wrong one is.
 
 **What it cannot prove:** It uses made-up testers and made-up document names, so it does not show how real applicants behave.
+
+## Flagged applicant test
+
+**Case:** Singpass flags the applicant as not eligible for a passport update. All data is made up.
+
+**What should happen:** The form closes before any field is shown. The screen says the renewal cannot go ahead online, does not give a reason, sends the applicant to customer service, and says an ICA officer decides.
+
+**Success signal:** Every flagged test is stopped before the form. The tester view shows "Flag check" with the count, for example 1 of 1.
+
+**Kill switch:** Any flagged test that reaches the form or the document check. Fix this before anything else.
+
+**Counted separately:** Flagged tests are left out of the Singpass connection and 30% edit counts, so they do not skew them.
+
+**What it cannot prove:** It does not use real Singpass flags or real eligibility rules. It only shows the form stops and hands over to a person.
