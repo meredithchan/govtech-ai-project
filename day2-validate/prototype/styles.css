@@ -1,0 +1,80 @@
+  /* Colours and shapes follow the public ICA site: navy #141b4d, blue #326295, red #d6001c, teal #006682, 8px corners, Inter font. */
+  :root { --navy: #141b4d; --blue: #326295; --red: #d6001c; --teal: #006682; --bg: #f2f6f9; --line: #cbd9e7; --text: #131414; --grey: #4d4f50; --off: #c1c6c8; }
+  body { font-family: Inter, Lato, Arial, sans-serif; font-size: 1rem; margin: 0; background: var(--bg); color: var(--text); line-height: 1.5; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .skip { position: absolute; left: -999px; top: 0; background: #fff; color: var(--navy); padding: 8px 12px; z-index: 10; font-weight: 600; border: 2px solid var(--navy); border-radius: 8px; }
+  .skip:focus { left: 8px; top: 8px; }
+  .banner { background: var(--red); color: #fff; padding: 8px 20px; font-size: .8125rem; font-weight: 600; text-align: center; }
+  header { background: #fff; border-bottom: 4px solid var(--navy); padding: 14px 20px; display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+  header strong { font-size: 1.25rem; color: var(--navy); font-weight: 700; }
+  header .sub { font-size: .8125rem; color: var(--grey); }
+  .lang { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: .875rem; }
+  .lang select, .tester-box select { font-family: inherit; font-size: .875rem; padding: 6px; border-radius: 8px; border: 1px solid var(--grey); background: #fff; color: var(--text); min-height: 32px; }
+  .wrap { max-width: 900px; margin: 24px auto; padding: 0 16px; display: flex; gap: 20px; align-items: flex-start; }
+  main { flex: 1; min-width: 0; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 24px; }
+  aside { width: 280px; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 16px; display: none; font-size: .875rem; }
+  aside.open { display: block; }
+  .progress { font-size: .875rem; color: var(--grey); margin-bottom: 8px; }
+  .bar { height: 8px; background: var(--line); border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+  .bar div { height: 8px; background: var(--blue); }
+  h1 { font-size: 1.5rem; margin: 0 0 16px; color: var(--navy); font-weight: 700; line-height: 1.2; }
+  h1:focus { outline: none; }
+  .choice { display: block; border: 2px solid var(--line); border-radius: 8px; padding: 16px; margin: 12px 0; font-size: 1.125rem; font-weight: 600; cursor: pointer; }
+  .choice:has(input:checked) { border-color: var(--blue); background: #e5ecf3; }
+  .choice:has(input:focus-visible) { outline: 3px solid var(--navy); outline-offset: 2px; }
+  .choice input { margin-right: 10px; transform: scale(1.3); accent-color: var(--blue); }
+  .choice .sub { font-size: .875rem; font-weight: 400; color: var(--grey); margin: 4px 0 0 30px; }
+  button { font-family: inherit; font-size: 1rem; font-weight: 600; line-height: 1.2; padding: 12px 16px; margin: 16px 8px 0 0; background: #fff; color: var(--blue); border: 1px solid var(--blue); border-radius: 8px; cursor: pointer; min-height: 44px; }
+  button:hover { background: #e5ecf3; }
+  button.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+  button.primary:hover { background: var(--navy); border-color: var(--navy); }
+  /* Disabled buttons keep readable text: dark grey on light grey is 5.4 to 1. */
+  button:disabled, button:disabled:hover { background: #e4e8ea; border-color: var(--off); color: #5a5d5e; cursor: not-allowed; }
+  button.link { background: none; border: none; color: var(--blue); text-decoration: underline; padding: 4px 6px; margin: 0; font-size: .8125rem; font-weight: 600; min-height: 24px; }
+  button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible, #errSum:focus-visible, #retryNote:focus-visible { outline: 3px solid var(--navy); outline-offset: 2px; }
+  .made-up { font-size: .75rem; color: var(--grey); margin-top: 24px; }
+
+  /* Step 2: numbered path to follow */
+  .path { margin: 0; padding: 0; list-style: none; position: relative; }
+  .path::before { content: ""; position: absolute; left: 21px; top: 24px; bottom: 24px; width: 2px; background: var(--line); }
+  .stepcard { position: relative; display: flex; gap: 14px; align-items: flex-start; background: #fff; border: 2px solid var(--blue); border-radius: 8px; padding: 12px; margin: 0 0 14px 0; }
+  .stepcard .num { flex: none; width: 36px; height: 36px; line-height: 36px; text-align: center; border-radius: 50%; background: var(--navy); color: #fff; font-weight: 700; font-size: 1.125rem; z-index: 1; }
+  .stepcard .body { flex: 1; font-size: 1.125rem; font-weight: 600; }
+  .stepcard .help { font-size: .875rem; font-weight: 400; color: var(--grey); margin-top: 6px; }
+  .stepcard.done { background: var(--bg); border-color: var(--line); color: var(--grey); }
+  .stepcard.done .num { background: var(--teal); }
+  .stepcard.done .body span.t { text-decoration: line-through; }
+  .stepcard button { margin: 0; padding: 8px 14px; }
+  .stepcard button.link { padding: 4px 6px; margin-left: 6px; }
+  .count { font-size: 1rem; font-weight: 700; color: var(--navy); margin: 12px 0 0; }
+  .note { background: #e5ecf3; border-left: 4px solid var(--blue); border-radius: 4px; padding: 10px; font-size: .875rem; margin-top: 16px; }
+  .note.ok { border-left-color: var(--teal); }
+
+  /* Forms */
+  .frow { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-top: 18px; }
+  label.f { font-weight: 600; }
+  .hint { font-size: .8125rem; color: var(--grey); margin: 2px 0 6px; font-weight: 400; }
+  input[type=text], input[type=date] { font-family: inherit; width: 100%; max-width: 360px; padding: 10px; font-size: 1rem; box-sizing: border-box; border: 1px solid var(--grey); border-radius: 8px; min-height: 44px; }
+  input[aria-invalid=true] { border: 2px solid var(--red); }
+  .err { color: var(--red); font-weight: 600; font-size: .875rem; margin-top: 4px; }
+  .errsum { border: 2px solid var(--red); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; font-weight: 600; }
+  .errsum ul { margin: 6px 0 0; padding-left: 20px; font-weight: 400; }
+  .errsum a { color: var(--red); }
+  .eg { border: 1px dashed var(--blue); border-radius: 8px; padding: 10px; margin: 8px 0; background: var(--bg); }
+  .photo { display: inline-block; width: 110px; min-height: 110px; border: 2px solid var(--grey); border-radius: 8px; text-align: center; font-size: .75rem; margin: 4px 8px 4px 0; vertical-align: top; padding: 6px; box-sizing: border-box; }
+  .good { border-color: var(--teal); } .bad { border-color: var(--red); }
+  .draft { font-size: .8125rem; color: var(--grey); margin-bottom: 10px; }
+  .draft b { color: var(--teal); }
+  .welcome-meta { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px; margin: 12px 0; font-size: 1rem; }
+  .tester { max-width: 900px; margin: 0 auto 32px; padding: 0 16px; }
+  .tester-box { background: #fff; border: 2px dashed var(--navy); border-radius: 8px; padding: 14px; font-size: .875rem; }
+  .tester-box h2 { font-size: 1rem; margin: 0 0 4px; color: var(--navy); }
+  .tester-box h3 { font-size: .9375rem; margin: 16px 0 4px; color: var(--navy); }
+  .tester-box table { border-collapse: collapse; width: 100%; margin-top: 8px; }
+  .tester-box td { padding: 6px; border-top: 1px solid var(--line); vertical-align: top; }
+  .tester-box td:first-child { font-weight: 600; width: 38%; }
+  .tester-box button { font-size: .875rem; padding: 8px 12px; margin: 6px 8px 0 0; }
+  .pass { color: var(--teal); font-weight: 700; }
+  .fail { color: var(--red); font-weight: 700; }
+  @media (max-width: 760px) { .wrap { flex-direction: column; } aside { width: auto; } .lang { margin-left: 0; } }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
