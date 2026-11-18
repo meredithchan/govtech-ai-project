@@ -115,13 +115,14 @@ var stuckTimer = null;
 
 // Made-up Singpass test cases. Nobody here is a real person.
 var MADE_UP_PROFILE = { name: "Tan Mei Ling", dob: "1990-03-14", passportNo: "E0000000X", childName: "Tan Jia Hao", childDob: "2016-09-02" };
-var CASES = { ok: "Details correct", wrong: "One detail wrong", missing: "Details missing", down: "Singpass unavailable" };
+var CASES = { ok: "Details correct", wrong: "One detail wrong", missing: "Details missing", down: "Singpass unavailable", flagged: "Singpass flags applicant (not eligible)" };
 var LABELS = { name: "Full name", dob: "Date of birth", passportNo: "Passport number", childName: "Child's full name", childDob: "Child's date of birth" };
 
 function singpassReturn(c) {
   var p = blankData();
   if (c === "down") { return { status: "down", data: p }; }
   for (var k in MADE_UP_PROFILE) { p[k] = MADE_UP_PROFILE[k]; }
+  if (c === "flagged") { return { status: "flagged", data: p }; }
   if (c === "wrong") { p.name = "Tan Mei Lin"; }
   if (c === "missing") { p.dob = ""; p.childDob = ""; p.passportNo = ""; }
   return { status: "connected", data: p };
@@ -283,6 +284,16 @@ function fieldRow(key, label, type) {
 function render() {
   var m = $("main"), h = "";
 
+  if (state.sp.status === "flagged" && state.step > 0) {
+    m.innerHTML = '<h1>We cannot continue this renewal online</h1>' +
+      '<div class="note"><b>Made-up flag.</b> Your Singpass record shows a flag (made up). This renewal cannot go ahead online.</div>' +
+      '<p>Please contact customer service. An ICA officer can explain the next step.</p>' +
+      '<p>This is not a decision on your application. An ICA officer decides.</p>' +
+      '<button class="primary" onclick="startNew()">Back to sign in</button>' + footer();
+    renderTester();
+    return;
+  }
+
   if (state.step === 0) {
     h = '<h1>Sign in with Singpass</h1>' +
       '<p>This is a made-up sign in. Nothing is sent.</p>' +
@@ -375,10 +386,13 @@ function connect() {
 var results = [];
 
 // Made-up document quiz. Only used when Singpass connected. Answers stay on this page.
+// This list must match day2-validate/context-skill.md (rules 2 and 3, source S1).
+var NOT_NEEDED = ["Printed copy of NRIC", "Proof of address", "Marriage certificate", "Printed Singpass summary"];
 var DOCS = {
-  self: { need: ["Current passport", "Recent photo"], extra: ["Printed copy of NRIC", "Proof of address", "Marriage certificate"] },
-  child: { need: ["Child's passport", "Child's birth certificate", "Recent photo of child", "Your own ID"], extra: ["Printed Singpass summary", "Proof of address", "Your marriage certificate"] }
+  self: { need: ["Current passport", "Recent photo"], extra: NOT_NEEDED },
+  child: { need: ["Child's passport", "Child's birth certificate", "Recent photo of your child", "Your own ID"], extra: NOT_NEEDED }
 };
+var lastQuiz = null;
 var quizPick = {}, quizResults = [];
 function quizList() {
   var d = DOCS[state.who || "self"];
@@ -390,10 +404,21 @@ function recordQuiz() {
   var missed = d.need.filter(function (x) { return !quizPick[x]; }).length;
   var wrong = d.extra.filter(function (x) { return quizPick[x]; }).length;
   quizResults.push({ who: state.who || "self", missed: missed, wrong: wrong, perfect: !missed && !wrong });
+  lastQuiz = {
+    missed: d.need.filter(function (x) { return !quizPick[x]; }),
+    wrong: d.extra.filter(function (x) { return quizPick[x]; })
+  };
   quizPick = {};
   renderTester();
 }
-function clearQuiz() { quizResults = []; quizPick = {}; renderTester(); }
+function clearQuiz() { quizResults = []; quizPick = {}; lastQuiz = null; renderTester(); }
+function lastQuizNote() {
+  if (!lastQuiz) { return ""; }
+  if (!lastQuiz.missed.length && !lastQuiz.wrong.length) { return '<p>Last answer: <span class="pass">exactly right</span>.</p>'; }
+  return '<p>Last answer: <span class="fail">not exact</span>.' +
+    (lastQuiz.missed.length ? ' Missed: ' + lastQuiz.missed.map(esc).join(", ") + '.' : '') +
+    (lastQuiz.wrong.length ? ' Not needed: ' + lastQuiz.wrong.map(esc).join(", ") + '.' : '') + '</p>';
+}
 function quizSummary() {
   var n = quizResults.length;
   if (!n) { return ""; }
@@ -411,7 +436,8 @@ function renderQuiz() {
   return '<h3>Document check (made up)</h3>' +
     '<p>Singpass has filled in the details. Which documents do you still need to gather?</p>' + boxes +
     '<button onclick="recordQuiz()">Record answer</button><button onclick="clearQuiz()">Clear document results</button>' +
-    '<p>Answers recorded: ' + quizResults.length + '</p>' + quizSummary();
+    '<p>Answers recorded: ' + quizResults.length + '</p>' + lastQuizNote() + quizSummary() +
+    '<p class="hint">Answer key: context-skill.md, rules 2 and 3 (S1). All document names are made up.</p>';
 }
 
 function setScenario(v) { state.scenario = v; renderTester(); }
@@ -421,7 +447,8 @@ function record() {
   var needed = relevantFields();
   var portedAll = state.sp.status === "connected" && needed.every(function (k) { return !!state.ported[k]; });
   var edits = state.step3edits === null ? editedFields().length : state.step3edits;
-  results.push({ scenario: CASES[state.scenario], connected: state.sp.status === "connected", portedAll: portedAll, edits: edits });
+  results.push({ scenario: CASES[state.scenario], connected: state.sp.status === "connected", portedAll: portedAll, edits: edits,
+    flagged: state.sp.status === "flagged", stopped: state.sp.status === "flagged" && state.step <= 1 });
   state.recorded = true;
   persist();
   renderTester();
@@ -430,15 +457,26 @@ function record() {
 function clearResults() { results = []; renderTester(); }
 
 function summary() {
-  var n = results.length;
-  if (!n) { return ""; }
-  var ok = results.filter(function (r) { return r.connected && r.portedAll; }).length;
-  var heavy = results.filter(function (r) { return r.edits >= 2; }).length;
-  var pct = Math.round(heavy / n * 100);
-  var killed = pct >= 30;
-  return '<p><b>Success signal (connects and all fields ported):</b> ' + ok + ' of ' + n + ' tests.</p>' +
-    '<p><b>Kill switch (edited at least 2 fields):</b> ' + heavy + ' of ' + n + ' = ' + pct + '%. ' +
-    (killed ? '<span class="fail">TRIGGERED (30% or more)</span>' : '<span class="pass">Not triggered (under 30%)</span>') + '</p>';
+  var all = results.length;
+  if (!all) { return ""; }
+  var normal = results.filter(function (r) { return !r.flagged; });
+  var flagged = results.filter(function (r) { return r.flagged; });
+  var out = "";
+  var n = normal.length;
+  if (n) {
+    var ok = normal.filter(function (r) { return r.connected && r.portedAll; }).length;
+    var heavy = normal.filter(function (r) { return r.edits >= 2; }).length;
+    var pct = Math.round(heavy / n * 100);
+    out += '<p><b>Success signal (connects and all fields ported):</b> ' + ok + ' of ' + n + ' tests.</p>' +
+      '<p><b>Kill switch (edited at least 2 fields):</b> ' + heavy + ' of ' + n + ' = ' + pct + '%. ' +
+      (pct >= 30 ? '<span class="fail">TRIGGERED (30% or more)</span>' : '<span class="pass">Not triggered (under 30%)</span>') + '</p>';
+  }
+  if (flagged.length) {
+    var stopped = flagged.filter(function (r) { return r.stopped; }).length;
+    out += '<p><b>Flag check (flagged applicant stopped before the form):</b> ' + stopped + ' of ' + flagged.length + '. ' +
+      (stopped === flagged.length ? '<span class="pass">All stopped</span>' : '<span class="fail">Some got through</span>') + '</p>';
+  }
+  return out + '<p class="hint">Flagged tests are counted separately from the Singpass connection tests.</p>';
 }
 
 function renderTester() {
@@ -447,6 +485,9 @@ function renderTester() {
   var opts = "";
   for (var k in CASES) { opts += '<option value="' + k + '"' + (state.scenario === k ? " selected" : "") + '>' + CASES[k] + '</option>'; }
   var rows = results.map(function (r, i) {
+    if (r.flagged) {
+      return '<tr><td>Test ' + (i + 1) + ': ' + esc(r.scenario) + '</td><td>Stopped before the form: ' + (r.stopped ? '<span class="pass">yes</span>' : '<span class="fail">no</span>') + '.</td></tr>';
+    }
     return '<tr><td>Test ' + (i + 1) + ': ' + esc(r.scenario) + '</td><td>Connected: ' + (r.connected ? '<span class="pass">yes</span>' : '<span class="fail">no</span>') +
       '. All fields ported: ' + (r.portedAll ? '<span class="pass">yes</span>' : '<span class="fail">no</span>') + '. Fields edited: ' + r.edits + '.</td></tr>';
   }).join("");
