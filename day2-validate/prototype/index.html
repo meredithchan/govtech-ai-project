@@ -62,6 +62,16 @@
   .draft { font-size: 13px; color: var(--grey); margin-bottom: 10px; }
   .draft b { color: var(--teal); }
   .welcome-meta { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px; margin: 12px 0; font-size: 16px; }
+  .tester { max-width: 900px; margin: 0 auto 32px; padding: 0 16px; }
+  .tester-box { background: #fff; border: 2px dashed var(--navy); border-radius: 8px; padding: 14px; font-size: 14px; }
+  .tester-box h2 { font-size: 16px; margin: 0 0 4px; color: var(--navy); }
+  .tester-box table { border-collapse: collapse; width: 100%; margin-top: 8px; }
+  .tester-box td { padding: 6px; border-top: 1px solid var(--line); vertical-align: top; }
+  .tester-box td:first-child { font-weight: 600; width: 38%; }
+  .tester-box select { font-family: inherit; font-size: 14px; padding: 6px; border-radius: 8px; border: 1px solid var(--grey); }
+  .tester-box button { font-size: 14px; padding: 8px 12px; margin: 6px 8px 0 0; }
+  .pass { color: var(--teal); font-weight: 700; }
+  .fail { color: var(--red); font-weight: 700; }
   @media (max-width: 760px) { .wrap { flex-direction: column; } aside { width: auto; } header { flex-direction: column; align-items: flex-start; gap: 4px; } }
 </style>
 </head>
@@ -77,23 +87,69 @@
   <aside id="side" aria-live="polite"></aside>
 </div>
 
+<div class="tester"><div class="tester-box" id="tester"></div></div>
+
 <script>
 var TOTAL = 5;
 
+function blankData() { return { name: "", dob: "", passportNo: "", childName: "", childDob: "" }; }
+
 var state = {
-  step: 1,
+  step: 0,
   who: "",
   done: {},
   helpOpen: {},
   stuck: false,
-  // Made-up details, as if they came from Singpass. Not real people.
-  data: { name: "Tan Mei Ling", dob: "1990-03-14", passportNo: "E0000000X", childName: "Tan Jia Hao", childDob: "2016-09-02" },
+  data: blankData(),
+  ported: blankData(),
+  sp: { status: "idle" },
+  step3edits: null,
+  scenario: "ok",
+  recorded: false,
   savedAt: "",
   welcome: false,
   confirmNew: false,
   saveFailed: false
 };
 var stuckTimer = null;
+
+// Made-up Singpass test cases. Nobody here is a real person.
+var MADE_UP_PROFILE = { name: "Tan Mei Ling", dob: "1990-03-14", passportNo: "E0000000X", childName: "Tan Jia Hao", childDob: "2016-09-02" };
+var CASES = { ok: "Details correct", wrong: "One detail wrong", missing: "Details missing", down: "Singpass unavailable" };
+var LABELS = { name: "Full name", dob: "Date of birth", passportNo: "Passport number", childName: "Child's full name", childDob: "Child's date of birth" };
+
+function singpassReturn(c) {
+  var p = blankData();
+  if (c === "down") { return { status: "down", data: p }; }
+  for (var k in MADE_UP_PROFILE) { p[k] = MADE_UP_PROFILE[k]; }
+  if (c === "wrong") { p.name = "Tan Mei Lin"; }
+  if (c === "missing") { p.dob = ""; p.childDob = ""; p.passportNo = ""; }
+  return { status: "connected", data: p };
+}
+
+function relevantFields() {
+  return state.who === "child" ? ["childName", "childDob", "name", "passportNo"] : ["name", "dob", "passportNo"];
+}
+function labelFor(k) {
+  if (k === "name" && state.who === "child") { return "Your full name"; }
+  if (k === "passportNo" && state.who === "child") { return "Child's passport number"; }
+  return LABELS[k];
+}
+function editedFields() {
+  return relevantFields().filter(function (k) { return state.data[k] !== state.ported[k]; });
+}
+function spNote() {
+  if (state.sp.status === "down") {
+    return "Singpass is not available right now (made up). You can still continue and type your details yourself. Submitting is not approval.";
+  }
+  return "Signed in with Singpass (made up). Submitting is not approval.";
+}
+function singpassNote() {
+  if (state.sp.status === "down") { return "Singpass could not be reached (made up). Please type your details."; }
+  var miss = relevantFields().filter(function (k) { return !state.ported[k]; });
+  if (miss.length) { return "Singpass did not send: " + miss.map(labelFor).join(", ") + " (made up). Please type them in."; }
+  return "From Singpass (made up). Fix anything wrong.";
+}
 
 // Draft saving. The draft stays in this browser on this device only. The photo is never kept in a draft.
 var DRAFT_KEY = "passport-prototype-draft-made-up";
@@ -110,6 +166,7 @@ function persist() {
     var now = new Date();
     localStorage.setItem(DRAFT_KEY, JSON.stringify({
       step: state.step, who: state.who, done: state.done, data: state.data,
+      ported: state.ported, sp: state.sp, step3edits: state.step3edits, scenario: state.scenario, recorded: state.recorded,
       savedAt: now.toLocaleString([], { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })
     }));
     state.savedAt = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -192,6 +249,7 @@ function saveFields() {
 
 function go(d) {
   saveFields();
+  if (state.step === 3 && d === 1) { state.step3edits = editedFields().length; }
   state.step += d;
   closeExample();
   clearTimeout(stuckTimer);
@@ -225,13 +283,18 @@ function fieldRow(key, label, type) {
 function render() {
   var m = $("main"), h = "";
 
-  if (state.step === 1) {
+  if (state.step === 0) {
+    h = '<h1>Sign in with Singpass</h1>' +
+      '<p>This is a made-up sign in. Nothing is sent.</p>' +
+      '<button class="primary" id="spBtn" onclick="connect()">Sign in with Singpass (made up)</button>';
+
+  } else if (state.step === 1) {
     h = head("Who is this passport for?") +
       '<label class="choice"><input type="radio" name="who" ' + (state.who === "self" ? "checked" : "") +
       ' onclick="setWho(\'self\')"> Myself</label>' +
       '<label class="choice"><input type="radio" name="who" ' + (state.who === "child" ? "checked" : "") +
       ' onclick="setWho(\'child\')"> My child<div class="sub">You are the parent. You get extra help.</div></label>' +
-      '<div class="note">Signed in with Singpass (made up). Submitting is not approval.</div>' +
+      '<div class="note">' + spNote() + '</div>' +
       nav(false, !state.who);
 
   } else if (state.step === 2) {
@@ -257,7 +320,7 @@ function render() {
   } else if (state.step === 3) {
     var child = state.who === "child";
     h = head("Check your details") +
-      '<div class="note">From Singpass (made up). Fix anything wrong.</div>' +
+      '<div class="note">' + singpassNote() + '</div>' +
       (child
         ? fieldRow("childName", "Child's full name", "text") +
           fieldRow("childDob", "Child's date of birth", "date") +
@@ -290,16 +353,79 @@ function render() {
       '<button onclick="go(-1)">Back</button><button class="primary" onclick="finish()">Submit</button>' +
       '<button onclick="saveDraft()">Save draft</button>';
   }
-  m.innerHTML = '<div class="draft" id="draftStatus" aria-live="polite">' + statusText() + '</div>' + h + footer();
+  m.innerHTML = (state.step === 0 ? "" : '<div class="draft" id="draftStatus" aria-live="polite">' + statusText() + '</div>') + h + footer();
+  renderTester();
+}
+
+function connect() {
+  var r = singpassReturn(state.scenario);
+  state.sp = { status: r.status };
+  state.ported = r.data;
+  state.data = blankData();
+  for (var k in r.data) { state.data[k] = r.data[k]; }
+  state.step3edits = null;
+  state.recorded = false;
+  state.step = 1;
+  persist();
+  render();
+}
+
+// Tester view. Not part of the applicant's screens. Results live in this page only and are never saved or sent.
+var results = [];
+
+function setScenario(v) { state.scenario = v; renderTester(); }
+
+function record() {
+  if (state.sp.status === "idle" || state.recorded) { return; }
+  var needed = relevantFields();
+  var portedAll = state.sp.status === "connected" && needed.every(function (k) { return !!state.ported[k]; });
+  var edits = state.step3edits === null ? editedFields().length : state.step3edits;
+  results.push({ scenario: CASES[state.scenario], connected: state.sp.status === "connected", portedAll: portedAll, edits: edits });
+  state.recorded = true;
+  persist();
+  renderTester();
+}
+
+function clearResults() { results = []; renderTester(); }
+
+function summary() {
+  var n = results.length;
+  if (!n) { return ""; }
+  var ok = results.filter(function (r) { return r.connected && r.portedAll; }).length;
+  var heavy = results.filter(function (r) { return r.edits >= 2; }).length;
+  var pct = Math.round(heavy / n * 100);
+  var killed = pct >= 30;
+  return '<p><b>Success signal (connects and all fields ported):</b> ' + ok + ' of ' + n + ' tests.</p>' +
+    '<p><b>Kill switch (edited at least 2 fields):</b> ' + heavy + ' of ' + n + ' = ' + pct + '%. ' +
+    (killed ? '<span class="fail">TRIGGERED (30% or more)</span>' : '<span class="pass">Not triggered (under 30%)</span>') + '</p>';
+}
+
+function renderTester() {
+  var t = $("tester");
+  if (!t) { return; }
+  var opts = "";
+  for (var k in CASES) { opts += '<option value="' + k + '"' + (state.scenario === k ? " selected" : "") + '>' + CASES[k] + '</option>'; }
+  var rows = results.map(function (r, i) {
+    return '<tr><td>Test ' + (i + 1) + ': ' + esc(r.scenario) + '</td><td>Connected: ' + (r.connected ? '<span class="pass">yes</span>' : '<span class="fail">no</span>') +
+      '. All fields ported: ' + (r.portedAll ? '<span class="pass">yes</span>' : '<span class="fail">no</span>') + '. Fields edited: ' + r.edits + '.</td></tr>';
+  }).join("");
+  t.innerHTML = '<h2>Tester view (made up). Not shown to applicants.</h2>' +
+    '<div>Made-up Singpass case for the next sign in: <select id="scenarioSel" onchange="setScenario(this.value)">' + opts + '</select></div>' +
+    '<div>This test: Singpass <b>' + esc(state.sp.status) + '</b>. Fields edited so far on "Check your details": <b>' + (state.sp.status === "idle" ? 0 : (state.step3edits === null ? editedFields().length : state.step3edits)) + '</b>.</div>' +
+    '<button onclick="record()"' + (state.sp.status === "idle" || state.recorded ? " disabled" : "") + '>Record this test</button>' +
+    '<button onclick="clearResults()">Clear results</button>' +
+    (rows ? '<table>' + rows + '</table>' : '<p>No tests recorded yet.</p>') + summary() +
+    '<p class="hint">All profiles here are made up. Results stay on this page and are not saved or sent.</p>';
 }
 
 function renderWelcome() {
   var dr = readDraft();
   var m = $("main");
   var stepNo = dr ? Math.min(Math.max(dr.step, 1), TOTAL) : 1;
+  var stepName = dr && dr.step === 0 ? "Sign in with Singpass" : STEP_TITLES[stepNo - 1];
   var h = '<h1>Welcome back</h1>' +
     '<p>You have a saved draft.</p>' +
-    '<div class="welcome-meta"><b>Last saved:</b> ' + esc(dr ? dr.savedAt : "") + '<br><b>You were on:</b> Step ' + stepNo + ' of ' + TOTAL + ', ' + esc(STEP_TITLES[stepNo - 1]) + '</div>';
+    '<div class="welcome-meta"><b>Last saved:</b> ' + esc(dr ? dr.savedAt : "") + '<br><b>You were on:</b> ' + (dr && dr.step === 0 ? esc(stepName) : 'Step ' + stepNo + ' of ' + TOTAL + ', ' + esc(stepName)) + '</div>';
   if (state.confirmNew) {
     h += '<div class="note">This deletes your saved draft.</div>' +
       '<button class="primary" onclick="startNew()">Yes, delete it and start new</button>' +
@@ -314,19 +440,26 @@ function renderWelcome() {
 function resumeDraft() {
   var dr = readDraft();
   if (dr) {
-    state.step = Math.min(Math.max(dr.step, 1), TOTAL);
+    state.step = Math.min(Math.max(dr.step, 0), TOTAL);
     state.who = dr.who || "";
     state.done = dr.done || {};
     for (var k in dr.data) { if (state.data.hasOwnProperty(k)) { state.data[k] = dr.data[k]; } }
+    if (dr.ported) { for (var j in dr.ported) { if (state.ported.hasOwnProperty(j)) { state.ported[j] = dr.ported[j]; } } }
+    state.sp = dr.sp || { status: "idle" };
+    state.step3edits = typeof dr.step3edits === "number" ? dr.step3edits : null;
+    state.scenario = dr.scenario || "ok";
+    state.recorded = !!dr.recorded;
     state.savedAt = "";
   }
   state.welcome = false;
   render();
 }
 
+// The sign in step stays out of drafts until Singpass has connected.
 function startNew() {
   clearDraft();
-  state.welcome = false; state.confirmNew = false; state.step = 1; state.who = ""; state.done = {};
+  state.welcome = false; state.confirmNew = false; state.step = 0; state.who = ""; state.done = {};
+  state.data = blankData(); state.ported = blankData(); state.sp = { status: "idle" }; state.step3edits = null; state.recorded = false;
   render();
 }
 
@@ -337,6 +470,7 @@ function finish() {
     '<div class="note">An ICA officer will review it and decide. It can still be returned.</div>' +
     '<p>End of prototype. Nothing was sent.</p>' +
     '<button class="primary" onclick="location.reload()">Start again</button>' + footer();
+  record();
 }
 
 // Save typed changes as the applicant types, so nothing is lost.
