@@ -41,6 +41,18 @@ Use case: B: ICA passport applications and renewals
 - The passport photo editor could change features of the face. Users can upload a photo from another source, such as their phone gallery or camera.
 
 ## Risks (market, technical, team)
+
+All tests use made-up data and made-up testers.
+
+**Market risk:** Applicants may ignore the step by step guide and go straight to the ICA form, so the return rate does not fall below 17%.
+*How we will test it:* Give 10 made-up testers a made-up renewal task with the guide open and the plain ICA page also available. Count how many follow the guide to the end. If fewer than 7 of 10 do, the guide is not being used.
+
+**Technical risk:** Singpass may not connect or may not send every relevant field.
+*How we will test it:* The tester view in `day2-validate/prototype/` runs made-up Singpass cases. Success is a connection with all relevant fields ported. The kill switch triggers if 30% of testers edit at least 2 Singpass fields. See `day2-validate/build-log.md`.
+
+**Team risk:** Only one owner keeps the document list up to date, and the list drifts from the real rules.
+*How we will test it:* Check the document list against `day2-validate/context-skill.md` each time a source changes. If the quiz and the file ever disagree, the review trigger in that file applies.
+
 ## Build plan and handoff
 ## Agent role and guardrails
 ## Roles and operating model
@@ -62,3 +74,4 @@ Use case: B: ICA passport applications and renewals
 ## Evals and gates
 ## Decision: continue, pivot or stop
 ## Open issues
+
