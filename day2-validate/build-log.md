@@ -41,4 +41,4 @@ It uses made-up data, so it cannot show that the real return rate falls below 17
 
 **Kill-switch signal:** High error rates on each page during submission.
 
-**Trigger:** The kill switch is triggered if the Singpass information ported into the form is edited in 3 out of 10 cases.
+**Trigger:** The kill switch is triggered if 30% of applicants edit at least 2 of the Singpass fields on the "Check your details" step.
