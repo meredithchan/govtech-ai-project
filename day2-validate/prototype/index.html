@@ -365,6 +365,7 @@ function connect() {
   for (var k in r.data) { state.data[k] = r.data[k]; }
   state.step3edits = null;
   state.recorded = false;
+  quizPick = {};
   state.step = 1;
   persist();
   render();
@@ -372,6 +373,46 @@ function connect() {
 
 // Tester view. Not part of the applicant's screens. Results live in this page only and are never saved or sent.
 var results = [];
+
+// Made-up document quiz. Only used when Singpass connected. Answers stay on this page.
+var DOCS = {
+  self: { need: ["Current passport", "Recent photo"], extra: ["Printed copy of NRIC", "Proof of address", "Marriage certificate"] },
+  child: { need: ["Child's passport", "Child's birth certificate", "Recent photo of child", "Your own ID"], extra: ["Printed Singpass summary", "Proof of address", "Your marriage certificate"] }
+};
+var quizPick = {}, quizResults = [];
+function quizList() {
+  var d = DOCS[state.who || "self"];
+  return d.need.concat(d.extra).sort();
+}
+function pickDoc(name, on) { quizPick[name] = on; }
+function recordQuiz() {
+  var d = DOCS[state.who || "self"];
+  var missed = d.need.filter(function (x) { return !quizPick[x]; }).length;
+  var wrong = d.extra.filter(function (x) { return quizPick[x]; }).length;
+  quizResults.push({ who: state.who || "self", missed: missed, wrong: wrong, perfect: !missed && !wrong });
+  quizPick = {};
+  renderTester();
+}
+function clearQuiz() { quizResults = []; quizPick = {}; renderTester(); }
+function quizSummary() {
+  var n = quizResults.length;
+  if (!n) { return ""; }
+  var ok = quizResults.filter(function (r) { return r.perfect; }).length;
+  var pct = Math.round(ok / n * 100);
+  return '<p><b>Success signal (picked exactly the needed documents):</b> ' + ok + ' of ' + n + ' = ' + pct + '%. ' +
+    (pct >= 90 ? '<span class="pass">Met (90% or more)</span>' : '<span class="fail">Not met</span>') + '</p>' +
+    '<p><b>Kill switch (under 70% exactly right):</b> ' + (pct < 70 ? '<span class="fail">TRIGGERED</span>' : '<span class="pass">Not triggered</span>') + '</p>';
+}
+function renderQuiz() {
+  if (state.sp.status !== "connected") { return '<h3>Document check (made up)</h3><p>Sign in with Singpass (a connected case) to use this check.</p>'; }
+  var boxes = quizList().map(function (x) {
+    return '<label class="choice"><input type="checkbox" ' + (quizPick[x] ? "checked" : "") + ' onchange="pickDoc(this.dataset.n,this.checked)" data-n="' + esc(x) + '"> ' + esc(x) + '</label>';
+  }).join("");
+  return '<h3>Document check (made up)</h3>' +
+    '<p>Singpass has filled in the details. Which documents do you still need to gather?</p>' + boxes +
+    '<button onclick="recordQuiz()">Record answer</button><button onclick="clearQuiz()">Clear document results</button>' +
+    '<p>Answers recorded: ' + quizResults.length + '</p>' + quizSummary();
+}
 
 function setScenario(v) { state.scenario = v; renderTester(); }
 
@@ -415,6 +456,7 @@ function renderTester() {
     '<button onclick="record()"' + (state.sp.status === "idle" || state.recorded ? " disabled" : "") + '>Record this test</button>' +
     '<button onclick="clearResults()">Clear results</button>' +
     (rows ? '<table>' + rows + '</table>' : '<p>No tests recorded yet.</p>') + summary() +
+    renderQuiz() +
     '<p class="hint">All profiles here are made up. Results stay on this page and are not saved or sent.</p>';
 }
 

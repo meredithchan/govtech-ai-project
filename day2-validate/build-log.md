@@ -60,3 +60,20 @@ It uses made-up data, so it cannot show that the real return rate falls below 17
 **How the prototype tests it:** The first screen is a made-up "Sign in with Singpass". A tester view (labelled made up, not shown to applicants) picks one of four made-up cases: details correct, one detail wrong, details missing, Singpass unavailable. It counts each test as a success only if the connection works and every relevant field arrives. It also counts how many fields the applicant edits on "Check your details", which feeds the kill switch.
 
 **What it cannot prove:** It does not call the real Singpass. It shows that the form handles each case clearly. It cannot show that the real connection works.
+
+
+---
+
+**Assumption:** Applicants understand all the documents needed for the passport renewal, once Singpass has filled in their details.
+
+**Risk type:** Comprehension.
+
+**Why it matters:** Even if Singpass brings the details across, applicants still need to gather the right documents. If they miss one or bring the wrong ones, the application is returned.
+
+**Success signal:** At least 90% of made-up testers pick exactly the documents they need. Every needed document must be ticked and no wrong one ticked.
+
+**Kill switch:** Triggered if fewer than 70% of made-up testers get it exactly right.
+
+**How the prototype tests it:** A quiz in the tester view, shown only after a connected Singpass sign-in. The quiz lists the needed documents mixed with made-up wrong ones. The list is different for parents and non-parents. An answer counts as right only if every needed document is ticked and no wrong one is.
+
+**What it cannot prove:** It uses made-up testers and made-up document names, so it does not show how real applicants behave.
