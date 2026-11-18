@@ -57,7 +57,19 @@ Passport photo shows error
 - If Singpass information wasn't complete, allow for retry to bring information over
 - Reload save  draft option
 
-**Result:** _fill in after you run it: what worked, what broke._
+**Result:** Ran on 18 Nov 2026 against the prototype in a browser, with made-up data only. The forced failure was triggered by sending a text file named like a photo (made up) through the photo step.
+
+*What worked:*
+- Singpass connection fails: step 1 says Singpass is not available and the applicant can type their own details. The details step says Singpass could not be reached, and every field starts blank.
+- Singpass sends only some information: the details step names the missing fields ("Date of birth, Passport number") and asks the applicant to type them in. Fields that did arrive stay filled in.
+- Saving the draft fails: the draft line says "Could not save a draft in this browser." and the applicant keeps their answers on the same step.
+- The business rules held in every scenario: no promise of approval, no extra documents asked for, nothing sent.
+
+*What broke:*
+- Forced failure (passport photo submission fails): no error message appeared, "Next" stayed on, and the applicant reached "Check your answers" and "Submit" with no valid photo. The prototype does not check the photo. It only shows an example.
+- "Passport photo shows error" has no screen at all.
+- No retry for Singpass. The edge cases ask for a retry when information is incomplete, and for a reload prompt when Singpass returns an error. The prototype offers neither.
+- No retry when a draft save fails.
 
 ## 3. Refine
 
@@ -69,4 +81,14 @@ Passport photo shows error
 
 **Edge cases:**
 
-**Result:** _fill in after you run it: what worked, what broke._
+**Result:** Ran on 18 Nov 2026 against the prototype in a browser, with made-up data only. The Refine edge cases are empty, so none were tested.
+
+*What worked:*
+- "Next" on "Get these ready" stays off until every document is marked "Done" (0 of 3 and 2 of 3 stayed off, 3 of 3 turned it on).
+- "Check your answers" lets the applicant change any field before they submit.
+
+*What broke:*
+- The document rule only checks that the applicant ticked "Done". It does not check that the document is good (for example expired or blurry), so "not up to expectation" is never caught.
+- The field format rule is not built. All eight made-up bad passport numbers were accepted, including "12345", "hello world", a lower case value and one with the wrong length. An empty passport number was also accepted. The field has no pattern, no length limit and no error message.
+- The rule says "NRIC", but the prototype has no NRIC field. It has a passport number. The rule needs to say which field it means and what the real format is. The made-up passport example "E0000000X" starts with E, which the S or T rule would reject.
+- The rule gives the format only for NRIC. Date of birth and name have no format rule yet.
