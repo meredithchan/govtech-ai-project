@@ -65,7 +65,7 @@ The Singpass cases in the tester view are: details correct, one detail wrong, de
 
 ## 5. Technical reality
 
-- **One file, 1,100 lines.** Screens, wording for five languages, test data and the tester view share one global `state` object. There is no build, no framework and no automated test.
+- **Split into plain files, no build.** `index.html` is now a 34-line shell. `styles.css` holds the look. Seven script files in `js/` load in order: `wording.js` (five languages), `state.js` (state, drafts), `ui.js` (language switch, examples, form helpers), `photo.js` (photo check), `screens.js` (applicant screens), `tester.js` (tester view), `start.js` (start up). They still share one global `state` object and one global scope, so the order of the script tags matters. There is no framework and no automated test.
 - **Nothing is sent.** There is no `fetch` or form post. The one outside request is the Inter font from Google Fonts. The build log says nothing leaves the browser, so this needs fixing or stating.
 - **Drafts** go to the browser's local storage under one key, on this device only. Step, answers, ticks, language and the Singpass result are kept. The photo is never kept. Submitting deletes the draft. A draft resumed at the last step sends the applicant back to re-add the photo.
 - **Singpass is fake.** `singpassReturn()` returns one of the made-up profiles. Nothing calls a real service.
@@ -125,7 +125,7 @@ The Singpass cases in the tester view are: details correct, one detail wrong, de
 Do not ship this. Use it as a spec and a demo.
 
 1. **Replace the made-up parts before any real use:** Singpass, the photo check, and every format and limit. Get the real rules from ICA first.
-2. **Split the file.** Separate the applicant screens, wording, test data and tester view so each can be tested alone.
+2. **Finish the split.** The file is now cut into parts, but they still share globals. Next, wrap each part in a module with its own imports so each can be tested alone.
 3. **Add automated tests** for the format rules, the photo verdicts, retry behaviour and the flagged stop. They were only tested by hand.
 4. **Fix the font request** by hosting the font, or say it in the security answer.
 5. **Make the translation check a test** that fails if any language is missing a key, and have native speakers review all four non-English languages.
