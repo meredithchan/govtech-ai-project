@@ -21,7 +21,20 @@ All data is synthetic and labelled as made up.
 - Child does not have an official parent and is in state's care
 - Applicant is disabled and cannot read forms, require an accessible form to aid interaction
 
-**Result:** _fill in after you run it: what worked, what broke._
+**Result:** Ran in chat on 18 Nov 2026 with five made-up photo descriptions. No real photo or person.
+
+*What worked:*
+- The four photo rules gave a clear verdict for four of the five made-up photos: A passed, B failed on background, C failed on a covered and blurry face, D failed on age.
+- The pass and background messages were written in English, Simplified Chinese, Bahasa Melayu, Tamil and Hindi. None promised approval.
+- Three edge cases fit existing rules: no Singpass goes to customer service, not allowed to leave the country is a stop with no reason, and a child in the state's care goes to customer service.
+
+*What broke or is unclear:*
+- The guide cannot view a real image. It judged text descriptions. A real check needs an image tool the prototype does not have.
+- "Top half of body visible" is wider than a usual passport photo. To confirm.
+- Does exactly 6 months old pass? Counted as passing. To confirm.
+- A photo with no date data is not covered by the rules. Proposed: say it cannot be confirmed and offer a new photo or customer service.
+- Tamil and Hindi wording needs a native speaker to check.
+- An accessible route for applicants who cannot read forms is missing from the prototype.
 
 ## 2. Behavior
 
