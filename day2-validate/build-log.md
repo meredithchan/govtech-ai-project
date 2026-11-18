@@ -42,3 +42,21 @@ It uses made-up data, so it cannot show that the real return rate falls below 17
 **Kill-switch signal:** High error rates on each page during submission.
 
 **Trigger:** The kill switch is triggered if 30% of applicants edit at least 2 of the Singpass fields on the "Check your details" step.
+
+
+
+## Riskiest assumption
+
+**Assumption:** Singpass can work successfully. The applicant signs in, and their details come across into the passport renewal form.
+
+**Risk type:** Technical.
+
+**Why it is the riskiest:** Every other part of the idea depends on it. If the details do not come across, applicants type everything themselves and the guide loses its point.
+
+**Success signal:** A successful connection, and all relevant fields ported over into the passport renewal form.
+
+**Kill switch:** Singpass fails to connect, or leaves relevant fields empty or wrong, for too many applicants. The Kill switch section below sets the number.
+
+**How the prototype tests it:** The first screen is a made-up "Sign in with Singpass". A tester view (labelled made up, not shown to applicants) picks one of four made-up cases: details correct, one detail wrong, details missing, Singpass unavailable. It counts each test as a success only if the connection works and every relevant field arrives. It also counts how many fields the applicant edits on "Check your details", which feeds the kill switch.
+
+**What it cannot prove:** It does not call the real Singpass. It shows that the form handles each case clearly. It cannot show that the real connection works.
