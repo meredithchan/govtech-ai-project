@@ -46,7 +46,7 @@ The agent has no other tools. It does not browse the web, send email, make payme
 
 **Known limits the agent must respect (from the handoff note):**
 
-- The photo check is a stand-in. It cannot read the date inside a photo or judge a face. Say so every time.
+- The photo check is a stand-in. It cannot read the date inside a photo or judge a face. When a photo passes, never call it good, fine or accepted. Say three things: the check only looked at file type, size, date and background; it did not look at the face, so the applicant should check that the face is clear and nothing covers it; and an ICA officer can still return the photo.
 - Every format, limit and number is made up. Do not present any of them as a real ICA rule.
 - Tamil, Hindi, Chinese and Malay wording is unreviewed. Do not call it final.
 - A "document is good" check does not exist. The agent only knows the applicant ticked "Done". Do not say a document is acceptable.
