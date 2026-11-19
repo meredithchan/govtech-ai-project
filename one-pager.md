@@ -79,6 +79,36 @@ All tests use made-up data and made-up testers.
 **Not ready yet:** it is not built. Only the file type, size, date and background checks work, on made-up photos. Face and date-tag checks are not built or tested.
 
 ## Roles and operating model
+
+Full detail is in `day3-build/operating-model.md`. Roles only, no names. Entries marked Proposed are suggestions, not decisions.
+
+**Roles:**
+
+- **Product owner (the learner):** owns the project and the course files. Decides scope and permissions while this is a prototype.
+- **Business owner (a team):** owns the real service and the rules. Signs off any rule, format, limit, photo rule or document list change. Decides vendor and model, go-live and retire. One lead signs every decision.
+- **Engineering manager:** puts the agent on hold alone to limit damage, and emails the Business owner lead.
+- **Engineering lead:** builds and runs the agent, and owns the security check of the system and its APIs.
+- **Customer service:** takes every hand-over the agent cannot settle. Agents are grouped by language, and each group checks wording in its language before real use.
+- **ICA officer:** decides every application and every photo's final result. Never the agent.
+- **Applicant:** confirms their own answers and presses Submit.
+
+**The agent decides nothing** about an application, a photo's final result, who is eligible, or its own permissions.
+
+**Who decides what:**
+
+| Part | Decides | Consulted |
+|---|---|---|
+| Scope | Product owner | Engineering lead, Business owner, Customer service |
+| Permissions | Product owner, after Business owner sign-off on any rule change | Engineering lead, Business owner |
+| Vendor and model | Business owner | Engineering lead, Product owner |
+| Go-live | Business owner | Product owner, Engineering lead, Customer service |
+| Incident | Engineering manager puts the agent on hold. Product owner decides the fix now. Business owner once live. | Engineering lead, Customer service |
+| Retire | Business owner | Product owner, Engineering lead, Customer service |
+
+**If the agent gives a wrong answer:** monitoring alerts the whole Engineering team. The Engineering manager puts the agent on hold. Applicants carry on, and an API check validates their applications. The Business owner lead is told by email. ICA officers re-check affected submissions.
+
+**Not decided yet:** how an ICA officer sees the agent's result and reports a wrong one, and whether the Engineering lead and Engineering manager are one role or two.
+
 ## Strategy and roadmap
 
 ### Strategy kernel
