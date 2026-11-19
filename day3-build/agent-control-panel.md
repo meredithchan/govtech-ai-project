@@ -8,7 +8,7 @@ This panel is the rule sheet for the photo job. The photo job is one job inside 
 
 **Job:** look at one made-up passport photo and tell the applicant whether it is ready to go forward, and if not, what to fix. It decides which checks to run and in what order, and it can ask for another photo.
 
-**Why this job is in the agent and not a fixed workflow:** the prototype's check only looks at file type, size, file date and edge colour. It cannot judge a face. The agent is built with fixed rules and no language model (decided), so the face and date-tag checks have to be fixed rules too. See PRD Open decision 23.
+**Why this job is in the agent and not a fixed workflow:** the prototype's check only looks at file type, size, file date and edge colour (the Day 3 target also checks dimensions and colour). It cannot judge a face. The agent is built with fixed rules and no language model (decided), so the face and date-tag checks have to be fixed rules too. See PRD Open decision 23.
 
 **What it checks** (from the Expand rules in `day2-validate/PROMPTS.md`):
 
@@ -20,7 +20,7 @@ This panel is the rule sheet for the photo job. The photo job is one job inside 
 **What it can use:**
 
 - One photo the applicant adds. Made-up photos only.
-- The photo's file type, size and date tag.
+- The photo's file type, size, dimensions, colour and date tag.
 - The made-up rules above.
 - A way to ask the applicant for another photo, and a hand-over to customer service.
 
@@ -51,7 +51,7 @@ The photo job could do these things. They are ranked by how ready they are, not 
 
 The agent may do these without asking anyone.
 
-- Say a made-up photo is the wrong file type, over 5 MB, or older than 6 months, and ask for another.
+- Say a made-up photo is the wrong file type (not JPG, JPEG, HEIC, HEIF or PNG), over 8 MB, not 400 x 514 pixels, not in colour, or older than 6 months, and ask for another. For a wrong size, say how to fix it. It never resizes the photo itself.
 - Say the background is not white, and ask for another photo in front of a plain white wall.
 - Say the check could not read the photo, and ask for another.
 - Ask the applicant to try again, up to two more times.
