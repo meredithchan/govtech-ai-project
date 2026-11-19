@@ -41,6 +41,15 @@ The agent has no other tools. It does not browse the web, send email, make payme
 - `day2-validate/context-skill.md` for the 12 rules and the source list (S1 to S5). Cite a source for every claim.
 - `day2-validate/living-prd.md` for the screens, the metrics and the scope.
 - `day2-validate/build-log.md` for the kill switches.
+- `day2-validate/handoff-note.md` for what was proven, what was not, and the open issues.
+- `SCENARIO-PICK.md` to confirm the scenario is B. Stay on B.
+
+**Known limits the agent must respect (from the handoff note):**
+
+- The photo check is a stand-in. It cannot read the date inside a photo or judge a face. Say so every time.
+- Every format, limit and number is made up. Do not present any of them as a real ICA rule.
+- Tamil, Hindi, Chinese and Malay wording is unreviewed. Do not call it final.
+- A "document is good" check does not exist. The agent only knows the applicant ticked "Done". Do not say a document is acceptable.
 
 **Made-up formats the agent checks:**
 
@@ -93,6 +102,9 @@ The agent stops and hands over to a person at these points.
 | A parent keeps failing the document check | Customer service | Send them to customer service (S2). |
 | The applicant cannot find a document | Customer service | Say "Ask customer service". Do not suggest a substitute. |
 | The source does not cover the question | Customer service | Say the source does not say. Do not guess. |
+| The applicant has no Singpass set up | Customer service | Say the guide cannot continue without it. Send them to customer service. |
+| The applicant says they cannot leave the country, or a child is in the state's care | Customer service | Give no reason and no advice. Send them to customer service. An officer decides. |
+| The applicant cannot read the form | Customer service | The guide has no accessible route yet. Send them to customer service. |
 | A rule, format, limit or document list needs changing | Passport Renewal Content Owner | The owner signs off before the change. |
 | Tamil, Hindi, Chinese or Malay wording is new or changed | A native speaker | A native speaker checks it before real use. |
 | Before any course file is saved | The learner | Show the change in plain words and wait for a yes. |
