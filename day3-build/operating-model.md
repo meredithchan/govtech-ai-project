@@ -36,9 +36,9 @@ All of these are **Proposed**. Your files do not state them.
 
 | Harness part | Who decides | Who is consulted | Who is told |
 |---|---|---|---|
-| **Scope.** What the agent does and does not do. One agent or two. Whether the face and date-tag checks are built. | Product owner | Engineering lead, Business owner, Customer service | ICA officer |
+| **Scope.** What the agent does and does not do. Decided: one agent, fixed rules, and the face and date-tag checks are built. | Product owner | Engineering lead, Business owner, Customer service | ICA officer |
 | **Permissions.** The tier and setting for every action (read, draft, write, send; auto, confirm, block). | Product owner. A change to a format, limit, photo rule or document list needs the Business owner's written sign-off first. | Engineering lead (can it be enforced), Business owner | Customer service, ICA officer |
-| **Vendor and model.** Which model, if any, runs the agent or the face and date-tag checks, and who supplies it. **Proposed.** | Business owner | Engineering lead, Product owner | Customer service, ICA officer |
+| **Vendor and model.** The agent is fixed rules with no language model (decided), so this is about who builds and hosts the fixed rules, including the face and date-tag checks. **Proposed.** | Business owner | Engineering lead, Product owner | Customer service, ICA officer |
 | **Go-live.** Whether the agent is used with real applicants. **Proposed** for the decider. | Business owner, using the readiness evidence the Product owner sets | Product owner, Engineering lead, Customer service | ICA officer, Applicant (a plain notice) |
 | **Incident.** A kill switch triggers, a bad photo passes, a flagged applicant reaches the form, or the agent promises approval. | The agent stops itself first (Stop conditions). The Engineering manager puts it on hold, alone. Then the Product owner decides the fix while it is a prototype. The Business owner decides once it is live, including any fix to a rule that was wrong. **Proposed** | Engineering lead, Customer service | Business owner lead (by email), ICA officer, Applicant (if their case was affected) |
 | **Retire.** Turning the agent off for good, and what happens to its logs and drafts. **Proposed** | Business owner | Product owner, Engineering lead, Customer service | ICA officer, Applicant |
@@ -109,7 +109,7 @@ Where a step says **Your answer**, it comes from you. Everything else here is **
 These are yours. Nothing above is final.
 
 1. **Business owner.** Is "Business owner" the right name for the team? Which team is it in a real service? The files never say.
-2. **Vendor and model.** Does the Business owner decide, or the Engineering lead? Today the prototype uses no model, so there is no vendor yet.
+2. **Vendor and model.** Your answer is that the agent uses fixed rules and no language model, so there is no model vendor. Does the Business owner still decide who builds and hosts the fixed rules, or the Engineering lead?
 3. **Go-live.** What evidence would make the Business owner say yes? This is open decision 12 in `day3-build/ai-prd.md`.
 4. **Incident.** Monitoring alerts the whole Engineering team (your answer). How fast must someone respond? The files give no number. See Open decision 14.
 5. **Incident, after going live.** Who tells affected applicants, and how?

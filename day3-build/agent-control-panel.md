@@ -1,14 +1,14 @@
-# Agent control panel · Passport photo agent
+# Agent control panel · Passport photo job
 
 Scenario B · ICA passport applications and renewals. Everything here is made up. No real rules, people, photos or records.
 
-This panel covers one agent: the **passport photo agent**. It is step 3 of the work, "Check the passport photo", moved from a fixed workflow to an agent. The wider guide agent is in `day3-build/CLAUDE.md`. This panel is the rule sheet for the photo job only.
+This panel is the rule sheet for the photo job. The photo job is one job inside the one guide agent in `day3-build/CLAUDE.md`. It is not a second agent (decided). It is step 3 of the work, "Check the passport photo".
 
 ## What the agent is doing
 
 **Job:** look at one made-up passport photo and tell the applicant whether it is ready to go forward, and if not, what to fix. It decides which checks to run and in what order, and it can ask for another photo.
 
-**Why an agent and not a workflow:** the prototype's check only looks at file type, size, file date and edge colour. It cannot judge a face. The agent would also look at the picture itself, so it has to choose what to look at and how sure it is.
+**Why this job is in the agent and not a fixed workflow:** the prototype's check only looks at file type, size, file date and edge colour. It cannot judge a face. The agent is built with fixed rules and no language model (decided), so the face and date-tag checks have to be fixed rules too. See PRD Open decision 23.
 
 **What it checks** (from the Expand rules in `day2-validate/PROMPTS.md`):
 
@@ -32,7 +32,7 @@ This panel covers one agent: the **passport photo agent**. It is step 3 of the w
 
 ## Opportunity portfolio
 
-The photo agent could do these jobs. They are ranked by how ready they are, not by how useful they sound.
+The photo job could do these things. They are ranked by how ready they are, not by how useful they sound.
 
 | # | Opportunity | Value if it works | Risk if wrong | Ready now? |
 |---|---|---|---|---|
@@ -84,22 +84,22 @@ A named person looks at these before anything is final.
 
 One row per tool. The tools come from `day3-build/CLAUDE.md` and `day3-build/ai-prd.md`. The photo job uses the photo checker, the run log and the customer service hand-over. The other tools belong to the wider guide agent, so they are listed too.
 
-**All settings are Proposed. Nothing here is decided.** You decide each one. The full action-by-action table is in `day3-build/ai-prd.md`.
+**All settings below are decided** (you accepted them on 2026-11-19, with one change: row 8). The full action-by-action table is in `day3-build/ai-prd.md`.
 
 **Tiers:** *read* looks at something. *draft* produces words or a suggestion that is not kept. *write* changes something that is kept. *send* leaves the agent's control, or tells the applicant a decision.
 
 **Settings:** *auto* means the agent does it alone. *confirm* means a person says yes first. *block* means the agent may never do it.
 
-| # | Tool | Tier | Setting (Proposed) | What the stress runs showed |
+| # | Tool | Tier | Setting | What the stress runs showed |
 |---|---|---|---|---|
 | 1 | Made-up Singpass sign in | read | auto | Not used in run-004 to run-006. The retry button is the applicant's, so a retry is confirm (PRD row 5). |
 | 2 | Document list | read | auto | Used in run-005 and run-006. It returned the needed documents and nothing about a page that does not exist or a time frame. It is the agent's only source (S1). |
 | 3 | Field checker | read | auto | Not used in the stress runs. |
 | 4 | Photo checker | read | auto | Used in run-005. The agent kept the photo step and did not skip it when asked. It cannot judge a face. |
-| 5 | Draft save | write | confirm | Not used in the stress runs. It follows PRD row 17 and Open decision 4 on autosave. |
+| 5 | Draft save | write | confirm | Not used in the stress runs. It follows PRD row 17 and Open decision 4 on autosave (still open). |
 | 6 | Customer service hand-over | draft | auto | Used in all three stress runs. In each, the agent only told the applicant to contact customer service. It never contacted anyone itself, which PRD row 27 blocks. |
 | 7 | Run log | write | auto | Used in all three stress runs. It does not list "page the applicant cited", so run-005 had no rule for logging the page name. |
-| 8 | Picture reader for face and date tag (not built) | read | block | The photo job needs it, and it does not exist. It stays blocked until you decide to build it (PRD Open decision 3). |
+| 8 | Picture reader for face and date tag (to be built, fixed rules) | read | auto | Changed from block, because you decided to build the checks. It must be built as fixed rules, with no language model (PRD Open decisions 3, 13 and 23). Not built yet, so nothing is on until it exists. A face result is a suggestion the applicant decides on, never a final call. |
 
 **The agent has no search tool.** Its only sources are S1 to S5. If a search is ever added, it would need its own row here and a rule for what to say when it returns nothing.
 
@@ -111,7 +111,7 @@ One row per tool. The tools come from `day3-build/CLAUDE.md` and `day3-build/ai-
 
 **Open decisions for this section:**
 
-1. **Settings.** Do you accept, change or reject each Proposed setting? The ones most worth a second look are row 5 (draft save) and row 8 (picture reader).
+1. **Settings. DECIDED.** All eight accepted as written, with row 8 moved from block to auto. Whether row 8 should be confirm is PRD Open decision 24.
 2. **Logging a cited page.** Should the run log record the page name an applicant cites? Today the Logs section does not say.
 3. **Empty enquiry rule.** Should an empty message get its own rule, or is the first-job fallback enough?
 4. **Retry on Singpass.** Row 1 is auto to read the result, and the retry is the applicant's press. Is that the right split?

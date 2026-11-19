@@ -2,7 +2,7 @@
 
 Scenario B · ICA passport applications and renewals. Everything here is made up. No real rules, people, photos or records.
 
-This is a draft. It pulls together `day3-build/CLAUDE.md`, `day3-build/agent-control-panel.md`, `day2-validate/living-prd.md` and `day2-validate/handoff-note.md`. It does not decide anything new. Every setting in the Permissions table is marked **Proposed**, and every choice that is yours to make is listed under Open decisions.
+This is a draft. It pulls together `day3-build/CLAUDE.md`, `day3-build/agent-control-panel.md`, `day2-validate/living-prd.md` and `day2-validate/handoff-note.md`. Four decisions are made (see the top of Open decisions). Every other choice that is yours is listed there too.
 
 ## Problem and user
 
@@ -12,7 +12,7 @@ This is a draft. It pulls together `day3-build/CLAUDE.md`, `day3-build/agent-con
 
 **Target:** submission return rate under 17%.
 
-**What the agent is for:** it guides one applicant through a renewal, step by step, and checks their application before they submit. One job inside it is the passport photo check, which the control panel treats as its own agent (see Open decisions).
+**What the agent is for:** it guides one applicant through a renewal, step by step, and checks their application before they submit. The passport photo check is one job inside this one agent. It is not a second agent (decided).
 
 **What the agent is not for:** deciding anything about an application. An ICA officer makes every final decision.
 
@@ -47,13 +47,13 @@ All tools are made up. The agent has no other tools.
 | Customer service hand-over | Tells the applicant to contact customer service | The agent cannot contact anyone itself. |
 | Run log | Writes one entry per session | Field names and reasons only. Never values or photos. |
 
-**Not built yet, named in the control panel:** a face check and a date-tag check that look at the picture itself. Whether to build them is under Open decisions.
+**Decided to build, not built yet:** a face check and a date-tag check that look at the picture itself. They are built as fixed rules, with no language model (decided). What the rules are, and how accurate they must be, is Open decision 23.
 
 **Not available to the agent:** the web, email, payments, any real service, and any photo editing tool.
 
 **Facts to build from** (read from the prototype code, so this is what works today):
 
-- **Today there is no language model.** Every screen and message in the prototype is fixed code and fixed wording. The "agent" in this PRD is the target. What the prototype proves is the rules, not an agent's behaviour.
+- **No language model, now or in the build (decided).** The agent is fixed rules and fixed wording. Every screen and message in the prototype is already fixed code. What the prototype proves is the rules, not an agent's behaviour.
 - **Data handled.** Six fields, all made up: `name`, `dob`, `nric`, `passportNo`, `childName`, `childDob`. Someone renewing their own passport sees four: `name`, `dob`, `nric`, `passportNo`. A parent sees five: the child's name and date of birth, plus the parent's own name and NRIC and the child's passport number. The prototype assumes Singpass sends all six, including the child's details. Whether the real Singpass does is unknown.
 - **Singpass result.** One of: connected (all fields), partial (some fields empty), down (no fields) or flagged. A retry replays the case. The prototype puts no limit on retries. What the applicant typed beats what Singpass sends.
 - **Photo checker.** The file must be an image type, 5 MB or less, and its file-modified date must be within 6 months. If a file has no modified date, that check is skipped, so such a file passes it. The background test shrinks the picture to 48 by 48 pixels and looks at the top rows and the left and right edges, 6 pixels deep. The bottom is skipped. A pixel counts as white when each colour value is 200 or more and the three values are within 30 of each other. At least 85% white passes. Nothing else is checked.
@@ -88,25 +88,25 @@ All tools are made up. The agent has no other tools.
 
 ## Permissions
 
-Every action the agent takes is listed, with a tier and a setting. **All settings are Proposed. Nothing here is decided.** You decide each one under Open decisions.
+Every action the agent takes is listed, with a tier and a setting. **The settings below are decided** (you accepted them on 2026-11-19, with one change forced by your other answers, row 4).
 
 **Tiers:** *read* looks at something. *draft* produces words or a suggestion that is not kept. *write* changes something that is kept. *send* leaves the agent's control, or tells the applicant a decision.
 
 **Settings:** *auto* means the agent does it alone. *confirm* means a person says yes first. *block* means the agent may never do it.
 
-| # | Action | Tier | Setting (Proposed) | Note |
+| # | Action | Tier | Setting | Note |
 |---|---|---|---|---|
 | 1 | Read the context files listed above | read | auto | |
 | 2 | Read the made-up Singpass result | read | auto | |
 | 3 | Read the photo's file type, size, date and edge colour | read | auto | Works today. |
-| 4 | Read the picture itself, for face and date tag | read | block | Not built or tested. Proposed block until you decide. |
+| 4 | Read the picture itself, for face and date tag | read | auto | Changed from block, because you decided to build these checks. Fixed rules only. The result is a suggestion the applicant decides on (row 10), never a final call. |
 | 5 | Try Singpass again | read | confirm | The applicant presses the button. |
 | 6 | Show the needed documents for the applicant type | draft | auto | |
 | 7 | Say which field has an error and how to fix it | draft | auto | |
 | 8 | Answer an applicant's question, with a source | draft | auto | Say so if the source does not cover it. |
 | 9 | Report a photo result in the required wording | draft | auto | Never "good", "fine" or "accepted". |
 | 10 | Suggest a fix the applicant decides on, such as a face that may be covered | draft | auto | The agent proposes and waits. |
-| 11 | Ask for another photo, up to two more times | draft | auto | The count is a proposal. |
+| 11 | Ask for another photo, up to two more times | draft | auto | Accepted. The count is two more tries. |
 | 12 | Say "submitting is not approval" | draft | auto | Required. |
 | 13 | Tell the applicant to contact customer service | draft | auto | |
 | 14 | Write wording in Tamil, Hindi, Chinese or Malay | draft | confirm | The matching Customer service language group checks it before real use. |
@@ -237,11 +237,11 @@ These are for the engineering team. Nothing here is decided in this document.
 
 ## Open decisions
 
-These are yours. The Proposed settings above are suggestions only.
+These are yours. Four are now decided. The rest are open.
 
-1. **One agent or two?** The control panel treats the photo check as its own agent. This PRD describes one guide agent that includes the photo job. Which do you want?
-2. **Permissions.** Do you accept, change or reject each Proposed setting in the table? The ones most worth a second look are #4 (read the picture itself), #5 (retry Singpass), #11 (the two extra photo tries), #14 (translations), #17 (save draft), #26 (submit, which needs the applicant's confirmation) and #27 to #30 (the blocks).
-3. **Build the face and date-tag checks, or not?** They are the reason the photo job is an agent, and neither is built.
+1. **One agent or two? DECIDED: one agent.** The photo check is one job inside the guide agent. The control panel and one pager are updated to match.
+2. **Permissions. DECIDED.** Every setting in the table is accepted as written, with one change: #4 (read the picture itself) moved from block to auto, because you decided to build the face and date-tag checks. Whether #4 should be confirm instead is Open decision 24.
+3. **Build the face and date-tag checks? DECIDED: yes, as fixed rules.** Open decision 23 asks what the rules are.
 4. **Autosave.** The prototype saves a draft as the applicant types. #17 proposes confirm. Which do you want?
 5. **Three tries.** The "three failures, then customer service" rule and the "two more photo tries" are numbers I chose. Keep, change or drop?
 6. **Photo date rule.** Does exactly 6 months pass? Is a photo with no date tag asked for again, or sent to customer service?
@@ -254,7 +254,7 @@ These are yours. The Proposed settings above are suggestions only.
 
 **Found when reading as the engineering lead.** These are gaps an engineer could not build from. I did not decide any of them.
 
-13. **What is the agent made of?** Today there is no language model, only fixed code and wording. Should the agent stay fixed rules, use a language model for some jobs (the face check, free questions), or both? This changes what engineering builds and tests.
+13. **What is the agent made of? DECIDED: fixed rules, no language model.** This means the face check must be done with fixed rules too, which is Open decision 23.
 14. **Child details from Singpass.** The prototype assumes Singpass sends the child's name and date of birth. If the real one does not, the parent types them. Which is true, and who confirms it?
 15. **Singpass retry limit.** The prototype lets the applicant retry without a limit. Cap it, and at what number, or leave it open?
 16. **Draft expiry.** Drafts never expire, and they are removed only on submit or "start new". How long should a draft live? This ties to question 4 on autosave.
@@ -264,3 +264,5 @@ These are yours. The Proposed settings above are suggestions only.
 20. **Pass bar for the agent.** The kill switches cover the prototype. There is none for the agent's own answers, such as how many test runs must follow every rule. The run log counts a promise of approval, an extra document or a missed stop as a failure. What share of runs must pass, and out of how many?
 21. **Who supplies S1 to S5?** Their contents are not stored anywhere. Who writes or provides them, and in what form?
 22. **Volume and speed.** How many applicants a day, how fast must the agent answer, and how much downtime is acceptable?
+23. **What are the fixed rules for the face and date-tag checks?** With no language model, the check cannot "look" at a face the way a person does. What can a fixed rule measure (for example, face found, face covered, picture sharp, date tag present)? How accurate must it be before it ships, and what happens when it is unsure? The control panel says a face judgement alone never blocks an applicant for good.
+24. **Row 4 setting.** It moved from block to auto because the checks are now to be built. Should it be confirm, so the applicant says yes before a face result is shown?
