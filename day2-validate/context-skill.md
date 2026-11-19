@@ -75,7 +75,7 @@ Every claim the assistant makes must cite one of these. All are made up.
 
 ## Owner
 
-Passport Renewal Content Owner. This is a made-up role. No real name is given.
+Business owner. This is a made-up team. No real names are given.
 
 The owner keeps S1 to S5 up to date and signs off every change to this file.
 
