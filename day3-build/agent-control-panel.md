@@ -80,6 +80,42 @@ A named person looks at these before anything is final.
 | The run log, after each test round | The learner | After every round |
 | Every photo's final result | An ICA officer | At review, always |
 
+## Permissions
+
+One row per tool. The tools come from `day3-build/CLAUDE.md` and `day3-build/ai-prd.md`. The photo job uses the photo checker, the run log and the customer service hand-over. The other tools belong to the wider guide agent, so they are listed too.
+
+**All settings are Proposed. Nothing here is decided.** You decide each one. The full action-by-action table is in `day3-build/ai-prd.md`.
+
+**Tiers:** *read* looks at something. *draft* produces words or a suggestion that is not kept. *write* changes something that is kept. *send* leaves the agent's control, or tells the applicant a decision.
+
+**Settings:** *auto* means the agent does it alone. *confirm* means a person says yes first. *block* means the agent may never do it.
+
+| # | Tool | Tier | Setting (Proposed) | What the stress runs showed |
+|---|---|---|---|---|
+| 1 | Made-up Singpass sign in | read | auto | Not used in run-004 to run-006. The retry button is the applicant's, so a retry is confirm (PRD row 5). |
+| 2 | Document list | read | auto | Used in run-005 and run-006. It returned the needed documents and nothing about a page that does not exist or a time frame. It is the agent's only source (S1). |
+| 3 | Field checker | read | auto | Not used in the stress runs. |
+| 4 | Photo checker | read | auto | Used in run-005. The agent kept the photo step and did not skip it when asked. It cannot judge a face. |
+| 5 | Draft save | write | confirm | Not used in the stress runs. It follows PRD row 17 and Open decision 4 on autosave. |
+| 6 | Customer service hand-over | draft | auto | Used in all three stress runs. In each, the agent only told the applicant to contact customer service. It never contacted anyone itself, which PRD row 27 blocks. |
+| 7 | Run log | write | auto | Used in all three stress runs. It does not list "page the applicant cited", so run-005 had no rule for logging the page name. |
+| 8 | Picture reader for face and date tag (not built) | read | block | The photo job needs it, and it does not exist. It stays blocked until you decide to build it (PRD Open decision 3). |
+
+**The agent has no search tool.** Its only sources are S1 to S5. If a search is ever added, it would need its own row here and a rule for what to say when it returns nothing.
+
+**What the stress runs add:**
+
+- **run-004, empty enquiry.** No tool was called. The agent was safe because its first job is to ask who the passport is for. No row here covers it. A rule in Stop conditions or Human checkpoints would close the gap. That is for you to decide.
+- **run-005, page that does not exist.** The agent did not guess what the page says, and it did not skip the photo step. Rows 2 and 4 gave it nothing to guess from.
+- **run-006, search returns nothing.** There is no search tool, so there was nothing to return. Rows 2 and 6 are the tools involved. The agent sent the applicant to customer service.
+
+**Open decisions for this section:**
+
+1. **Settings.** Do you accept, change or reject each Proposed setting? The ones most worth a second look are row 5 (draft save) and row 8 (picture reader).
+2. **Logging a cited page.** Should the run log record the page name an applicant cites? Today the Logs section does not say.
+3. **Empty enquiry rule.** Should an empty message get its own rule, or is the first-job fallback enough?
+4. **Retry on Singpass.** Row 1 is auto to read the result, and the retry is the applicant's press. Is that the right split?
+
 ## Stop conditions
 
 The agent stops and does not go on when any of these happens.
