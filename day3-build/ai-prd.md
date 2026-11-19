@@ -31,7 +31,7 @@ The full instructions are in `day3-build/CLAUDE.md`. In short, the agent must:
 7. Use plain words, short sentences and one action per step.
 8. If the source does not say, say so and send the applicant to customer service. Never guess.
 
-**Photo wording** (from the change in PR 31): never call a passing photo good, fine or accepted. Say the check only looked at file type, size, date and background, that it did not look at the face, and that an officer can still return the photo.
+**Photo wording** (from the change in PR 31): never call a passing photo good, fine or accepted. Say the check only looked at file type, size, dimensions, colour, date and background, that it did not look at the face, and that an officer can still return the photo.
 
 ## Tools
 
@@ -42,7 +42,7 @@ All tools are made up. The agent has no other tools.
 | Made-up Singpass sign in | Returns a made-up profile, an error, or part of a profile | No real Singpass. Nothing is sent out. |
 | Document list | Needed documents for self, or for a parent renewing for a child | Source S1. |
 | Field checker | Checks name, date of birth, NRIC and passport number | Made-up formats only. |
-| Photo checker | Checks file type, size under 5 MB, file date within 6 months, and mostly white edges | Cannot judge a face or read the date inside a photo. |
+| Photo checker | Checks file type (JPG, JPEG, HEIC, HEIF or PNG), size 8 MB or less, 400 x 514 pixels, in colour, file date within 6 months, and mostly white edges | Cannot judge a face or read the date inside a photo. Values from the ICA photo page. |
 | Draft save | Keeps progress in the applicant's own browser | Never keeps the photo. |
 | Customer service hand-over | Tells the applicant to contact customer service | The agent cannot contact anyone itself. |
 | Run log | Writes one entry per session | Field names and reasons only. Never values or photos. |
@@ -56,7 +56,7 @@ All tools are made up. The agent has no other tools.
 - **No language model, now or in the build (decided).** The agent is fixed rules and fixed wording. Every screen and message in the prototype is already fixed code. What the prototype proves is the rules, not an agent's behaviour.
 - **Data handled.** Six fields, all made up: `name`, `dob`, `nric`, `passportNo`, `childName`, `childDob`. Someone renewing their own passport sees four: `name`, `dob`, `nric`, `passportNo`. A parent sees five: the child's name and date of birth, plus the parent's own name and NRIC and the child's passport number. The prototype assumes Singpass sends all six, including the child's details. Whether the real Singpass does is unknown.
 - **Singpass result.** One of: connected (all fields), partial (some fields empty), down (no fields) or flagged. A retry replays the case. The prototype puts no limit on retries. What the applicant typed beats what Singpass sends.
-- **Photo checker.** The file must be an image type, 5 MB or less, and its file-modified date must be within 6 months. If a file has no modified date, that check is skipped, so such a file passes it. The background test shrinks the picture to 48 by 48 pixels and looks at the top rows and the left and right edges, 6 pixels deep. The bottom is skipped. A pixel counts as white when each colour value is 200 or more and the three values are within 30 of each other. At least 85% white passes. Nothing else is checked.
+- **Photo checker.** **Target (decided: page values):** JPG, JPEG, HEIC, HEIF or PNG; 8 MB or less; exactly 400 x 514 pixels; in colour; file-modified date within 6 months. **The prototype code does not do this yet.** It accepts any image type, allows 5 MB, and does not check size in pixels or colour. The 6-month rule and the background test below are as the prototype has them. If a file has no modified date, that check is skipped, so such a file passes it. The background test shrinks the picture to 48 by 48 pixels and looks at the top rows and the left and right edges, 6 pixels deep. The bottom is skipped. A pixel counts as white when each colour value is 200 or more and the three values are within 30 of each other. At least 85% white passes. Nothing else is checked.
 - **Languages.** Five, chosen by the applicant and saved in the draft. If a word is missing in a language, English is shown. All five currently have every word.
 - **Drafts.** Saved in the browser on every change, under one made-up key, with no expiry. A draft is deleted on submit or when the applicant starts again. The photo is never in it.
 - **Submit.** Today it clears the draft and shows "Submitted. Not approved yet." Nothing is sent anywhere.
@@ -98,7 +98,7 @@ Every action the agent takes is listed, with a tier and a setting. **The setting
 |---|---|---|---|---|
 | 1 | Read the context files listed above | read | auto | |
 | 2 | Read the made-up Singpass result | read | auto | |
-| 3 | Read the photo's file type, size, date and edge colour | read | auto | Works today. |
+| 3 | Read the photo's file type, size, dimensions, colour, date and edge colour | read | auto | Works today. |
 | 4 | Read the picture itself, for face and date tag | read | auto | Changed from block, because you decided to build these checks. Fixed rules only. The result is a suggestion the applicant decides on (row 10), never a final call. |
 | 5 | Try Singpass again | read | confirm | The applicant presses the button. |
 | 6 | Show the needed documents for the applicant type | draft | auto | |
@@ -311,7 +311,7 @@ These are yours. Four are now decided. The rest are open.
 
     1. Check the file type. Fail: say the type is wrong and ask for another photo.
     2. Check the file size. Fail: say it is too big and ask for another photo.
-    3. Check the dimensions. Fail: say the size is wrong and ask for another photo.
+    3. Check the dimensions. Fail: say the size is wrong, say it must be 400 x 514 pixels, and say a photo editing program can resize it and change nothing else. The agent never resizes the photo itself. Ask for another photo.
     4. Check the colour. Fail: say the photo must be in colour and ask for another.
     5. Check the background. The prototype test is made up and stays until the real rule is known.
     6. If every step passes, say what was checked and what was not (the face, the head position, glasses and lighting). Never say the photo is good, fine or accepted, as in `day3-build/CLAUDE.md`.
@@ -319,4 +319,4 @@ These are yours. Four are now decided. The rest are open.
 
     **How accurate must it be?** Every rule above is a yes or no on a number, so it should be right every time. What the page does not state (background, head position, "new") has no rule yet. Whether to use the page values is decision 25.
 24. **Row 4 setting.** It moved from block to auto because the checks are now to be built. Should it be confirm, so the applicant says yes before a face result is shown?
-25. **Page values or made-up values?** The ICA page gives 8 MB, 400 x 514 pixels and five file types. Your files use 5 MB and any image type, and say every number is made up. Should the agent use the page values, keeping them as a reference that the Business owner confirms? Using real page values is also a change from "made-up numbers only", so this is your call.
+25. **Page values or made-up values? DECIDED: use the page values** (file types, 8 MB, 400 x 514 pixels, colour). The Business owner confirms them before go-live. The prototype code and its five-language error wording still need to change, which is not done yet. The ICA page gives 8 MB, 400 x 514 pixels and five file types. Your files use 5 MB and any image type, and say every number is made up. Should the agent use the page values, keeping them as a reference that the Business owner confirms? Using real page values is also a change from "made-up numbers only", so this is your call.

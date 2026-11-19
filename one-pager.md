@@ -58,11 +58,11 @@ All tests use made-up data and made-up testers.
 
 **Agent:** one guide agent, with the passport photo check as one job inside it (decided: one agent, not two). For the photo job, it looks at one made-up passport photo and tells the applicant whether it is ready to go forward, and what to fix if not. It is step 3 of the work, "Check the passport photo". Full rules are in `day3-build/agent-control-panel.md`. The wider guide agent is in `day3-build/CLAUDE.md`.
 
-**Why this job is in the agent:** the current check only reads file type, size, file date and edge colour. It cannot judge a face. The agent is built with fixed rules and no language model (decided), so the face and date-tag checks are to be built as fixed rules.
+**Why this job is in the agent:** the current check only reads file type, size, file date and edge colour (the target also checks dimensions and colour). It cannot judge a face. The agent is built with fixed rules and no language model (decided), so the face and date-tag checks are to be built as fixed rules.
 
 **It checks:** white background, face visible and not covered, face clear, and a photo date within 6 months.
 
-**Decides alone:** a wrong file type or size, an old photo, a non-white background, an unreadable file. It asks for another photo, up to two more tries.
+**Decides alone:** a wrong file type, size or dimensions, a black and white photo, an old photo, a non-white background, an unreadable file. It asks for another photo, up to two more tries.
 
 **Proposes and waits:** a face that looks covered or blurred, a missing date tag, a photo that may be too dark. The applicant decides.
 
@@ -76,7 +76,7 @@ All tests use made-up data and made-up testers.
 - It stops after three failed tries and sends the applicant to customer service.
 - A bad photo that gets through is a kill switch.
 
-**Not ready yet:** it is not built. Only the file type, size, date and background checks work, on made-up photos. The face and date-tag checks are decided to be built, as fixed rules, but are not built or tested.
+**Not ready yet:** it is not built. Only the file type (any image), 5 MB size, date and background checks work, on made-up photos. The face and date-tag checks are decided to be built, as fixed rules, but are not built or tested.
 
 ## Roles and operating model
 
