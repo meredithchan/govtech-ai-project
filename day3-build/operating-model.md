@@ -110,7 +110,7 @@ These are yours. Nothing above is final.
 
 1. **Business owner.** Is "Business owner" the right name for the team? Which team is it in a real service? The files never say.
 2. **Vendor and model.** Your answer is that the agent uses fixed rules and no language model, so there is no model vendor. Does the Business owner still decide who builds and hosts the fixed rules, or the Engineering lead?
-3. **Go-live.** What evidence would make the Business owner say yes? This is open decision 12 in `day3-build/ai-prd.md`.
+3. **Go-live.** What evidence would make the Business owner say yes? The evidence list is in decision 12 of `day3-build/ai-prd.md`, list B.
 4. **Incident.** Monitoring alerts the whole Engineering team (your answer). How fast must someone respond? The files give no number. See Open decision 14.
 5. **Incident, after going live.** Who tells affected applicants, and how?
 6. **Retire.** How long are logs and drafts kept after the agent is retired, and who deletes them?

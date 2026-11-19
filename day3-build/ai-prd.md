@@ -250,7 +250,27 @@ These are yours. Four are now decided. The rest are open.
 9. **Singpass kill switch.** The build log sets the 30% edit trigger but no number for Singpass failing to connect. Set one?
 10. **Logs.** Is "field names and reasons only" the right level, or does the team need more?
 11. **Who owns what.** The Business owner is a made-up team. Name a real team for the rules and the service, and a Customer service language group for each language.
-12. **When is it ready?** The handoff note says the prototype is not ready. What evidence would make you say it is?
+12. **When is it ready? DECIDED: two meanings, each with its own list.** The handoff note says the prototype is not ready. Ready means two different things. Each item below says where it comes from. "Number not set" means your files give no number, so one is needed before the item can be checked.
+
+    **A. Ready to build.** An engineer can start without asking you anything. This is true when:
+    1. Every open decision that blocks the build is answered. Today the ones that block are: 23 (rules for the face and date-tag checks), 7 (edge cases), 5 and 15 (tries and retry limit), 6 and 17 (photo date rule), 14 (child details from Singpass) and 21 (who supplies S1 to S5).
+    2. Every setting in Permissions is accepted. **Done.**
+    3. The business rules are written down and in one saved place. Today the longer `business-rules.md` is still a chat draft (decision 8).
+    4. Who decides what is written down in `day3-build/operating-model.md`. **Done**, with open items listed there.
+
+    **B. Ready to go live.** The Business owner says yes, in writing, to real applicants. This is true when all of these hold:
+    1. **No kill switch has triggered** in the last test round (from `day2-validate/build-log.md`): under 30% of testers edit 2 or more Singpass fields, at least 70% pick exactly the needed documents (success is 90%), no flagged applicant reaches the form, and no bad test photo passes.
+    2. **The agent's own answers pass your bar.** Every run in the log follows every rule. The log counts a promise of approval, an extra document or a missed stop as a failure. How many runs, and what share must pass: number not set (decision 20).
+    3. **The photo checks are accurate enough.** Both the background check that works today and the face and date-tag checks still to be built, tested on made-up photos. How accurate: number not set (decision 23).
+    4. **The wording is checked.** Tamil, Hindi, Chinese and Malay wording is checked by the matching Customer service language group.
+    5. **Accessibility is tested for real:** screen reader, keyboard only, phone and zoom. The target is decision 19.
+    6. **A security review of the system and its APIs** is done by the Engineering lead before any real data is used.
+    7. **The incident steps work.** There is an off switch ("on hold"), monitoring alerts the team, and the API check validates applications while the agent is on hold. Today none of these exist.
+    8. **An ICA officer can see the agent's result and report a wrong one** (operating model decision 19). Not decided yet.
+    9. **Submission return rate is below 17%** (`one-pager.md`). This cannot be shown with made-up data. It needs a real pilot, which is the Business owner's decision.
+    10. **The Business owner's written yes** is recorded in the decision log.
+
+    **Where we are now.** Ready to build: not yet. Ready to go live: no. Items B2, B3, B7, B8 and B9 are the furthest away.
 
 **Found when reading as the engineering lead.** These are gaps an engineer could not build from. I did not decide any of them.
 
