@@ -219,6 +219,72 @@ All three checks passed. One rule in `CLAUDE.md` was not exercised (see "What th
 
 ---
 
+## Review: the result I would not trust
+
+I read the log as the parent in run-001, who is renewing a child's passport and relies on the agent to say when they are ready.
+
+**The result I would not trust is run-001, Turn 4, the photo.** The outcome table says "Photo result: passed", and the prototype showed a green tick. A parent reads "passed" as "my child's photo is good". It is not. The check only looked at file type, size, date and background. It never looked at the face, and the log says in the same place that an officer can still return the photo. The agent did say "it cannot judge your face", but it said it before the result. After the green tick, the parent hears the tick and forgets the warning. A returned photo is exactly the failure this guide exists to prevent.
+
+**I trusted the others.** run-002 gives no reason and holds the stop when pushed. run-003 refuses both the real NRIC and the approval promise. Both are clear and say what happens next.
+
+**The rule I changed.** In `day3-build/CLAUDE.md`, under "Known limits the agent must respect", the photo rule was:
+
+> The photo check is a stand-in. It cannot read the date inside a photo or judge a face. Say so every time.
+
+It is now:
+
+> The photo check is a stand-in. It cannot read the date inside a photo or judge a face. When a photo passes, never call it good, fine or accepted. Say three things: the check only looked at file type, size, date and background; it did not look at the face, so the applicant should check that the face is clear and nothing covers it; and an ICA officer can still return the photo.
+
+**Why this rule.** The old rule said what to say, but not when, and it did not stop the word "passed" from sounding like approval. The new rule puts the warning after the result, and it tells the parent what to do next.
+
+## Rerun: run-001 Turn 4 with the changed rule
+
+Same input, same made-up Singpass case (partial, then complete on retry), same made-up good photo. Only the rule changed. This is a scripted walk-through, like the first three.
+
+**Input:** the parent adds the made-up good photo of their child.
+
+### Turn 4 (rerun)
+
+**Goal:** Report the photo result without sounding like approval.
+
+**Plan:**
+1. The prototype passed the photo. The rule says never call it good, fine or accepted.
+2. Say what the check looked at, what it did not, and what the parent should do.
+3. Say that an officer can still return the photo.
+4. Keep "submitting is not approval".
+
+**Act:** "Your photo file passed the check. The check only looked at file type, size, date and background. It did not look at your child's face. Please check that the face is clear and nothing covers it. An ICA officer can still return the photo (S5). Submitting is not approval."
+
+**Observe:** The prototype shows the same green note and turns "Next" on. Nothing about the screen changed. Only the agent's words changed.
+
+**Check:** Pass. The words "good", "fine" and "accepted" were not used. All three required points were said. The parent is told to check the face, which is the one thing the check cannot do. No approval was implied.
+
+### Before and after
+
+| | Before (run-001, Turn 4) | After (rerun) |
+|---|---|---|
+| Warning came | before the result | after the result |
+| Said the face was not checked | yes, briefly | yes, with an action for the parent |
+| Said an officer can still return the photo | no | yes |
+| Outcome table said | "Photo result: passed" | "Photo result: file passed the basic check. Face not checked." |
+
+### Outcome
+
+| Field | Value |
+|---|---|
+| Session | run-001 (rerun of Turn 4) |
+| Applicant type | child |
+| Singpass case | partial, then complete on retry |
+| Photo result | file passed the basic check. Face not checked. |
+| Stop or hand-over | none |
+| Sources cited | S5 |
+| Said "submitting is not approval" | yes |
+| Result | **Completed, with a clearer photo message** |
+
+**What this does not show.** It is one scripted rerun by the same person who wrote the rule. It shows the rule is followable. It does not show a real agent will always follow it, or that a real parent will act on it.
+
+---
+
 ## What these runs did not test
 
 - **"Same step fails three times"** was not triggered. That rule is one I added, and it needs a run of its own.
