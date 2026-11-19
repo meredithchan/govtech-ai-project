@@ -284,5 +284,39 @@ These are yours. Four are now decided. The rest are open.
 20. **Pass bar for the agent.** The kill switches cover the prototype. There is none for the agent's own answers, such as how many test runs must follow every rule. The run log counts a promise of approval, an extra document or a missed stop as a failure. What share of runs must pass, and out of how many?
 21. **Who supplies S1 to S5?** Their contents are not stored anywhere. Who writes or provides them, and in what form?
 22. **Volume and speed.** How many applicants a day, how fast must the agent answer, and how much downtime is acceptable?
-23. **What are the fixed rules for the face and date-tag checks?** With no language model, the check cannot "look" at a face the way a person does. What can a fixed rule measure (for example, face found, face covered, picture sharp, date tag present)? How accurate must it be before it ships, and what happens when it is unsure? The control panel says a face judgement alone never blocks an applicant for good.
+23. **What are the fixed rules for the face and date-tag checks? PARTLY ANSWERED.** With no language model, a check cannot "look" at a face the way a person does. It can only measure things. Your reference is the ICA page `https://www.ica.gov.sg/photo-guidelines`, read on 2026-11-19. The page says the photo follows ISO and ICAO specifications.
+
+    **What the page states, and the fixed rule it allows** (all can be checked by measuring the file, no face needed):
+
+    | Page says | Fixed rule | Measurable? | Today's prototype |
+    |---|---|---|---|
+    | File types JPG, JPEG, HEIC, HEIF and PNG | The file type must be one of the five. Anything else: ask for another photo. | Yes | Accepts any image type. **Differs.** |
+    | Maximum file size 8 MB | Over 8 MB: ask for another photo. | Yes | Limit is 5 MB. **Differs.** |
+    | 400 x 514 pixels when uploaded online | Width and height must be exactly 400 x 514. Otherwise say the size is wrong and ask for another. | Yes | Not checked. **New.** |
+    | "A new, coloured photograph" | A black and white or greyscale photo fails. | Yes (colour values) | Not checked. **New.** |
+    | "New" | Needs a number of months to measure. The page gives none. | Only with a number | Uses 6 months from the file date. The number is made up. |
+    | Only resizing is allowed. No changing facial features. No photo filters. | Cannot be measured by a fixed rule. | No | Not checked. |
+    | Selfies usually do not meet the requirements | Cannot be measured by a fixed rule. | No | Not checked. |
+
+    **What the page text does not state** (its "Dos and Don'ts" section is an image, so this was not read). I have written no rule for these:
+
+    - Background colour and how plain it must be. The prototype's white-edge test is made up.
+    - Head position and size in the frame.
+    - Expression, glasses, headwear, lighting and shadows.
+    - What counts as "new".
+
+    **What a fixed rule cannot do.** Judge whether the face is clear, covered, or the right size in the frame. Doing that needs a face detector or an image model, and you decided on fixed rules. So the face part of the photo job is not covered by these rules. The agent says it did not look at the face, as now.
+
+    **Logic when the checks run, in order** (a proposal, not decided):
+
+    1. Check the file type. Fail: say the type is wrong and ask for another photo.
+    2. Check the file size. Fail: say it is too big and ask for another photo.
+    3. Check the dimensions. Fail: say the size is wrong and ask for another photo.
+    4. Check the colour. Fail: say the photo must be in colour and ask for another.
+    5. Check the background. The prototype test is made up and stays until the real rule is known.
+    6. If every step passes, say what was checked and what was not (the face, the head position, glasses and lighting). Never say the photo is good, fine or accepted, as in `day3-build/CLAUDE.md`.
+    7. A failed photo gets up to two more tries. After three fails, hand over to Customer service.
+
+    **How accurate must it be?** Every rule above is a yes or no on a number, so it should be right every time. What the page does not state (background, head position, "new") has no rule yet. Whether to use the page values is decision 25.
 24. **Row 4 setting.** It moved from block to auto because the checks are now to be built. Should it be confirm, so the applicant says yes before a face result is shown?
+25. **Page values or made-up values?** The ICA page gives 8 MB, 400 x 514 pixels and five file types. Your files use 5 MB and any image type, and say every number is made up. Should the agent use the page values, keeping them as a reference that the Business owner confirms? Using real page values is also a change from "made-up numbers only", so this is your call.
