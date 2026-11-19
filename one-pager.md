@@ -66,7 +66,7 @@ All tests use made-up data and made-up testers.
 
 **Proposes and waits:** a face that looks covered or blurred, a missing date tag, a photo that may be too dark. The applicant decides.
 
-**A person reviews:** photos it cannot decide on (customer service), rule changes (content owner), new wording (native speaker), and every photo's final result (an ICA officer).
+**A person reviews:** photos it cannot decide on (customer service), rule changes (business owner), new wording (customer service language group), and every photo's final result (an ICA officer).
 
 **Guardrails:**
 
