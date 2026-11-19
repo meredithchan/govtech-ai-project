@@ -109,13 +109,13 @@ Every action the agent takes is listed, with a tier and a setting. **All setting
 | 11 | Ask for another photo, up to two more times | draft | auto | The count is a proposal. |
 | 12 | Say "submitting is not approval" | draft | auto | Required. |
 | 13 | Tell the applicant to contact customer service | draft | auto | |
-| 14 | Write wording in Tamil, Hindi, Chinese or Malay | draft | confirm | A native speaker checks it before real use. |
+| 14 | Write wording in Tamil, Hindi, Chinese or Malay | draft | confirm | The matching Customer service language group checks it before real use. |
 | 15 | Stop the applicant moving to the next step until it is done | write | auto | For example, "Next" stays off. |
 | 16 | Stop a flagged applicant before the form, with no reason | write | auto | |
 | 17 | Save a draft in the applicant's own browser | write | confirm | The prototype also saves as the applicant types. See Open decisions. |
 | 18 | Write a run log entry | write | auto | Reasons and field names only. |
 | 19 | Change any course file or `one-pager.md` | write | confirm | The learner says yes first. |
-| 20 | Change a format, limit, photo rule or document list | write | confirm | The Passport Renewal Content Owner signs off. |
+| 20 | Change a format, limit, photo rule or document list | write | confirm | The Business owner signs off. |
 | 21 | Add a document to the needed list | write | confirm | Same sign-off. |
 | 22 | Keep or store a photo | write | block | |
 | 23 | Edit a photo or change a face | write | block | |
@@ -128,7 +128,7 @@ Every action the agent takes is listed, with a tier and a setting. **All setting
 | 30 | Send any data out of the browser or the repo | send | block | |
 | 31 | Ask for a document that is not on the needed list | draft | block | Say it is not needed instead. |
 
-**Runtime or build time.** Rows 14 and 19 to 21 are about changing the system, not serving an applicant. They happen before release, and a named person confirms: the learner, the content owner or a native speaker. Every other row happens while an applicant is using the guide. For the runtime "confirm" rows (#5, #17 and #26), I have read the person who confirms as the applicant. That is my reading, so it is in Open decisions.
+**Runtime or build time.** Rows 14 and 19 to 21 are about changing the system, not serving an applicant. They happen before release, and a named person confirms: the product owner, the Business owner or a Customer service language group. Every other row happens while an applicant is using the guide. For the runtime "confirm" rows (#5, #17 and #26), I have read the person who confirms as the applicant. That is my reading, so it is in Open decisions.
 
 ## Human checkpoints
 
@@ -141,8 +141,8 @@ Every action the agent takes is listed, with a tier and a setting. **All setting
 | The source does not cover the question | Customer service | Say the source does not say. |
 | No Singpass, cannot leave the country, a child in the state's care, or cannot read the form | Customer service | Give no reason or advice. Send them there. These cases have no screen yet. |
 | A photo the agent could not decide on | Customer service | After the third try. |
-| A rule, format, limit or document list changes | Passport Renewal Content Owner | Sign-off before the change. |
-| New or changed Tamil, Hindi, Chinese or Malay wording | Native speaker | Check before real use. |
+| A rule, format, limit or document list changes | Business owner | Sign-off before the change. |
+| New or changed Tamil, Hindi, Chinese or Malay wording | Customer service (language group) | Check before real use. |
 | Before any course file is saved | The learner | Show the change in plain words and wait for a yes. |
 | After each test round | The learner | Read the run log. |
 
@@ -249,7 +249,7 @@ These are yours. The Proposed settings above are suggestions only.
 8. **Business rules.** Save the longer `business-rules.md` draft to the repo, or leave it in chat?
 9. **Singpass kill switch.** The build log sets the 30% edit trigger but no number for Singpass failing to connect. Set one?
 10. **Logs.** Is "field names and reasons only" the right level, or does the team need more?
-11. **Who owns what.** The Passport Renewal Content Owner is a made-up role. Name a real owner for the rules, and a native speaker for each language.
+11. **Who owns what.** The Business owner is a made-up team. Name a real team for the rules and the service, and a Customer service language group for each language.
 12. **When is it ready?** The handoff note says the prototype is not ready. What evidence would make you say it is?
 
 **Found when reading as the engineering lead.** These are gaps an engineer could not build from. I did not decide any of them.

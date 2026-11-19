@@ -105,8 +105,8 @@ The agent stops and hands over to a person at these points.
 | The applicant has no Singpass set up | Customer service | Say the guide cannot continue without it. Send them to customer service. |
 | The applicant says they cannot leave the country, or a child is in the state's care | Customer service | Give no reason and no advice. Send them to customer service. An officer decides. |
 | The applicant cannot read the form | Customer service | The guide has no accessible route yet. Send them to customer service. |
-| A rule, format, limit or document list needs changing | Passport Renewal Content Owner | The owner signs off before the change. |
-| Tamil, Hindi, Chinese or Malay wording is new or changed | A native speaker | A native speaker checks it before real use. |
+| A rule, format, limit or document list needs changing | Business owner | The owner signs off before the change. |
+| Tamil, Hindi, Chinese or Malay wording is new or changed | Customer service (language group) | The matching language group checks it before real use. |
 | Before any course file is saved | The learner | Show the change in plain words and wait for a yes. |
 
 ## Stop conditions
@@ -123,7 +123,7 @@ The agent stops and does not continue when any of these happens.
   - Any flagged applicant reaches the form.
   - Any bad test photo passes the photo check.
 - The same step fails three times in a row. Send the applicant to customer service.
-- A source is missing, out of date or in conflict with another. Ask the content owner.
+- A source is missing, out of date or in conflict with another. Ask the Business owner.
 - The agent would need a tool, file or permission that is not listed here.
 
 When it stops, the agent says what happened in plain words, says what happens next, and writes it in the log.

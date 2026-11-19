@@ -72,9 +72,9 @@ An applicant signs in with a made-up Singpass, says who the passport is for, tic
 
 ## Owners
 
-- **Passport Renewal Content Owner** (a made-up role, no name) keeps sources S1 to S5, `context-skill.md` and the quiz key up to date. They sign off every change to those.
+- **Business owner** (a made-up team, no names) keeps sources S1 to S5, `context-skill.md` and the quiz key up to date. They sign off every change to those.
 - **The learner** owns the prototype, the one-pager and the PRD.
-- **A native speaker** is needed to check the Tamil, Hindi, Chinese and Malay wording.
+- **A Customer service language group** is needed to check the Tamil, Hindi, Chinese and Malay wording.
 
 ## Do this first
 
