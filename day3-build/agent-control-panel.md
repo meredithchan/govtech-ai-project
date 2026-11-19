@@ -75,8 +75,8 @@ A named person looks at these before anything is final.
 | What | Who | When |
 |---|---|---|
 | Any photo the agent could not decide on | Customer service | Straight away, after the third try |
-| Any change to a photo rule or limit | Passport Renewal Content Owner | Before the change |
-| Any change to the agent's wording | A native speaker, for Tamil, Hindi, Chinese and Malay | Before real use |
+| Any change to a photo rule or limit | Business owner | Before the change |
+| Any change to the agent's wording | Customer service, in the matching language group (Tamil, Hindi, Chinese, Malay) | Before real use |
 | The run log, after each test round | The learner | After every round |
 | Every photo's final result | An ICA officer | At review, always |
 
@@ -104,7 +104,7 @@ These are never given to the agent, whatever it can do.
 - **Anything about an applicant's face or identity.** The agent can say what the check saw. It cannot say who someone is or whether they look like their photo.
 - **Why Singpass flagged an applicant.** No reason is given.
 - **Whether an applicant is eligible.** That is for customer service and an officer.
-- **Changing a rule, limit or photo list.** The content owner signs it off.
-- **Whether the translations are right.** A native speaker checks them.
+- **Changing a rule, limit or photo list.** The Business owner signs it off.
+- **Whether the translations are right.** The matching Customer service language group checks them.
 - **Whether to use real photos.** The answer is no, in this project.
 - **Whether to ship this.** That is a decision for the learner and the people who own the real service. The prototype is not ready.
