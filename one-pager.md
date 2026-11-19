@@ -55,6 +55,29 @@ All tests use made-up data and made-up testers.
 
 ## Build plan and handoff
 ## Agent role and guardrails
+
+**Agent:** the passport photo agent. It looks at one made-up passport photo and tells the applicant whether it is ready to go forward, and what to fix if not. It is step 3 of the work, "Check the passport photo". Full rules are in `day3-build/agent-control-panel.md`. The wider guide agent is in `day3-build/CLAUDE.md`.
+
+**Why an agent:** the current check only reads file type, size, file date and edge colour. It cannot judge a face. The agent would look at the picture, so it has to choose what to check and how sure it is.
+
+**It checks:** white background, face visible and not covered, face clear, and a photo date within 6 months.
+
+**Decides alone:** a wrong file type or size, an old photo, a non-white background, an unreadable file. It asks for another photo, up to two more tries.
+
+**Proposes and waits:** a face that looks covered or blurred, a missing date tag, a photo that may be too dark. The applicant decides.
+
+**A person reviews:** photos it cannot decide on (customer service), rule changes (content owner), new wording (native speaker), and every photo's final result (an ICA officer).
+
+**Guardrails:**
+
+- Made-up photos only. It never keeps, edits or sends a photo.
+- It never says a photo is approved, good or accepted. It says "passed the basic check", and that an officer can still return it.
+- It never judges who someone is, and never gives a reason when Singpass flags an applicant.
+- It stops after three failed tries and sends the applicant to customer service.
+- A bad photo that gets through is a kill switch.
+
+**Not ready yet:** it is not built. Only the file type, size, date and background checks work, on made-up photos. Face and date-tag checks are not built or tested.
+
 ## Roles and operating model
 ## Strategy and roadmap
 
