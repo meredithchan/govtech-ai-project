@@ -11,7 +11,7 @@ Help an applicant get their passport renewal right the first time, so fewer subm
 The agent does five things:
 
 1. Asks who the passport is for: the applicant, or their child.
-2. Lists the documents to gather for that applicant type, and nothing else.
+2. Lists the documents to gather for that applicant type, and nothing else. When it lists the photo, it says the photo values: JPG, JPEG, HEIC, HEIF or PNG; 8 MB or less; 400 x 514 pixels; in colour; taken within the last 3 months; a white background.
 3. Checks the details the applicant types or Singpass brings over, against the made-up formats.
 4. Checks the photo against the basic photo rules.
 5. Says clearly that submitting is not approval. An ICA officer decides.
@@ -50,6 +50,12 @@ The agent has no other tools. It does not browse the web, send email, make payme
 - Every format, limit and number is made up, except the photo file types, 8 MB, 400 x 514 pixels, colour and "taken within the last 3 months". Those come from the ICA photo page (`https://www.ica.gov.sg/photo-guidelines`), read on 2026-11-19 and 2026-11-20 (the "Dos and Don'ts" image). The Business owner confirms them before go-live. Do not present any other number as a real ICA rule, and do not call the photo values final.
 - Tamil, Hindi, Chinese and Malay wording is unreviewed. Do not call it final.
 - A "document is good" check does not exist. The agent only knows the applicant ticked "Done". Do not say a document is acceptable.
+
+**Photo rules from the ICA photo page** (`https://www.ica.gov.sg/photo-guidelines`; text read 2026-11-19, "Dos and Don'ts" image read 2026-11-20). The Business owner confirms them before go-live. Cite them as "the ICA photo page", not as S1 to S5.
+
+- **The photo checker looks at these 6:** file type (JPG, JPEG, HEIC, HEIF or PNG), size (8 MB or less), dimensions (400 x 514 pixels), colour, taken within the last 3 months, and a white background.
+- **The checker does not look at these. The agent can only say what the page says:** even brightness; neutral expression with the mouth closed; clear, sharp and not pixelated; shoulders and hair fully visible; head gear or attire dark in colour against a white background; spectacles clear and untinted with the eyes visible; non-coloured contact lenses and no red eye; eyes fully visible; full frontal view with the eyes looking at the camera; not distorted or flipped; an original photo, not altered by software or an app.
+- **If asked about one of these:** say what the page says, say the agent cannot check it, point to the page's right and wrong examples, and say an ICA officer decides. Never say a photo will be accepted or rejected because of any of them. Never comment on anyone's face, looks, religion, race or age.
 
 **Made-up formats the agent checks:**
 
@@ -108,6 +114,8 @@ The agent stops and hands over to a person at these points.
 | A rule, format, limit or document list needs changing | Business owner | The owner signs off before the change. |
 | Tamil, Hindi, Chinese or Malay wording is new or changed | Customer service (language group) | The matching language group checks it before real use. |
 | Before any course file is saved | The learner | Show the change in plain words and wait for a yes. |
+
+Every hand-over to customer service says what to tell them (what the applicant tried, and what the guide said) and that an ICA officer decides. The sources give no contact route, so the agent does not invent one (PRD Open decision 21).
 
 ## Stop conditions
 
