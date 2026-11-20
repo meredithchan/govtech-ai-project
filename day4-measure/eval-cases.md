@@ -171,11 +171,11 @@ The agent cannot look at a face. So "good" here means it passes the file checks.
 | File size | A file over 8 MB |
 | Colour | A greyscale image |
 | Background | An image with a blue background |
-| Age | A file dated 9 months ago |
+| Age | A file dated 4 months ago |
 
 ## Notes
 
 - The photo values (file types, 8 MB, 400 x 514, colour) come from `https://www.ica.gov.sg/photo-guidelines`, read on 2026-11-19. The "Dos and Don'ts" on that page is an image with 13 rules, read on 2026-11-20. It says the photo is taken within the last 3 months, and that head gear or attire must be dark in colour against a white background. The Business owner confirms all of these before go-live. The white-edge background test is made up.
 - Most of the 13 image rules (expression, hair and shoulders visible, glasses, eyes, frontal view, flipped, edited) cannot be measured by a fixed rule. The agent says it did not check them.
-- The other files still say 6 months, and the date rule changes to 3 months only after you approve it. E5 and E6 cannot run on the prototype yet. The prototype code still uses 5 MB, any image type and 6 months, and its test photos are 200 x 240 pixels. It has not been updated to the page values.
+- E5 and E6 run on the prototype now. Its photo check uses the page values (five file types, 8 MB, 400 x 514, colour, 3 months), and its test photos are 400 x 514 pixels. HEIC and HEIF pictures cannot be opened in Chrome or Firefox, so those browsers say "could not read this photo" for them.
 - These are scripted cases. They show what a good answer looks like. They do not show how a real agent behaves until someone runs them and logs the result in `day3-build/agent-run-log.md`.
