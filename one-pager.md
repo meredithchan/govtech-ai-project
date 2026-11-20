@@ -60,7 +60,7 @@ All tests use made-up data and made-up testers.
 
 **Why this job is in the agent:** the current check only reads file type, size, file date and edge colour (the target also checks dimensions and colour). It cannot judge a face. The agent is built with fixed rules and no language model (decided), so the face and date-tag checks are to be built as fixed rules.
 
-**It checks:** white background, face visible and not covered, face clear, and a photo date within 6 months.
+**It checks:** white background, face visible and not covered, face clear, and a photo date within 3 months.
 
 **Decides alone:** a wrong file type, size or dimensions, a black and white photo, an old photo, a non-white background, an unreadable file. It asks for another photo, up to two more tries.
 
@@ -76,7 +76,7 @@ All tests use made-up data and made-up testers.
 - It stops after three failed tries and sends the applicant to customer service.
 - A bad photo that gets through is a kill switch.
 
-**Not ready yet:** it is not built. Only the file type (any image), 5 MB size, date and background checks work, on made-up photos. The face and date-tag checks are decided to be built, as fixed rules, but are not built or tested.
+**Not ready yet:** it is not built as the real agent. The prototype photo check now does the file type (JPG, JPEG, HEIC, HEIF, PNG), 8 MB, 400 x 514 pixels, colour, date (3 months, by file date) and background checks, on made-up photos. The face and date-tag checks are decided to be built, as fixed rules, but are not built or tested.
 
 ## Roles and operating model
 
