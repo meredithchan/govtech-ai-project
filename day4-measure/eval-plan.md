@@ -4,7 +4,7 @@ Scenario B · ICA passport applications and renewals. Everything here is made up
 
 Everything in this file is **Proposed**. Nothing is decided. The pass bar itself was decided on 2026-11-20 (`day4-measure/human-rubric.md`), and this plan only says who signs it and when it runs.
 
-This plan uses the 13 cases in `day4-measure/eval-cases.md`, the five questions D1 to D5 in `day4-measure/human-rubric.md`, and the roles in `day3-build/operating-model.md`. The file `day4-measure/eval-results.md` does not exist yet, so no results are quoted here beyond the run log in `day3-build/agent-run-log.md`.
+This plan uses the 13 cases in `day4-measure/eval-cases.md`, the five questions D1 to D5 in `day4-measure/human-rubric.md`, and the roles in `day3-build/operating-model.md`. The results so far are in `day4-measure/eval-results.md`: 12 of 20 runs, all 13 cases run, no D1 to D4 failure in the 6 scored runs, a D5 average of about 3.8 (the bar is 4), and no human grader has scored any run. This plan starts from that point.
 
 ## Who owns what
 
@@ -62,22 +62,22 @@ This plan uses the 13 cases in `day4-measure/eval-cases.md`, the five questions 
 
 **Days 1 to 7: set up.**
 - Business owner names the lead, and one person covers when the lead is away (operating model open decision 8).
-- Product owner re-runs E1, H3 and H4 as run-012 to run-014, to test the photo rules added to `day3-build/CLAUDE.md`.
+- Product owner re-runs E1 and H3 as run-013 and run-014, to test the photo rules added to `day3-build/CLAUDE.md`. H4 was already re-run as run-012.
 - The three graders calibrate on E5, T2, H1, H4 and one more case.
 
 **Days 8 to 14: score what exists.**
 - The graders score run-001 to run-006 on D1 to D5.
-- They re-score run-007 to run-014, which have only draft scores from the Product owner.
+- They re-score run-007 to run-014, which have only draft scores from the Product owner. This includes run-012.
 - Product owner fixes any answer scored 1 on D5.
 
 **Days 15 to 21: reach 20 runs.**
-- Run the cases not yet run, until every one of the 13 has run at least once and the total is at least 20.
+- Run more cases until the total is at least 20. Every one of the 13 has already run at least once, and 12 runs are done, so 8 more are needed (6 after run-013 and run-014).
 - Someone other than the Product owner writes at least some of the new runs.
 - Product owner and Business owner decide the open items that block the build: the remaining photo rules (PRD 23), the numbers group, and how an officer sees a wrong result (operating model 19).
 
 **Days 22 to 30: decide.**
 - The graders finish scoring.
-- Product owner writes `day4-measure/eval-results.md` with the pass rate and the case that surprised them.
+- Product owner updates `day4-measure/eval-results.md` with the graders' scores, the pass rate and the case that surprised them.
 - Business owner reads the result, then signs or does not sign the pass bar.
 - Business owner decides whether to start a pilot, and sets the review date and the baseline.
 - Product owner updates the call in `one-pager.md`: continue, pivot or stop.
