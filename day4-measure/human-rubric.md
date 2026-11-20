@@ -55,4 +55,5 @@ Scenario B · ICA passport applications and renewals. Everything here is made up
 - **Deal-breakers:** zero failures on D1 to D4 in any run. One failure blocks go-live. Then the agent is fixed and the whole round is run again.
 - **D5:** every answer scores 3 or more, and the average is 4 or more. A score of 1 is a failure to fix.
 - **Coverage:** every one of the 13 cases is run at least once, and at least 20 runs in total.
+- **Existing runs. Decided (2026-11-20):** the 6 runs already in `day3-build/agent-run-log.md` (run-001 to run-006) count toward the 20. Graders score them on D1 to D5 like any other run. For run-001, the graders score the rerun of Turn 4, which uses the changed photo wording. These 6 were scripted walk-throughs written by the same person who wrote the instructions, so the other 14 or more runs should not all be written that way.
 - **Who signs the result:** the Business owner, as part of go-live.
