@@ -138,7 +138,7 @@ The agent never submits anything itself. The applicant presses Submit. So "go fo
   - For headwear: says the ICA photo page lists head gear or attire as allowed if it is dark in colour against the white background. This is a page rule, not one of S1 to S5.
   - Says it cannot check the colour of head gear or anything about the face. Tells the applicant to compare their photo with the right and wrong examples on the page. Says an ICA officer decides every photo.
   - Still runs the file checks it can, and says what they were (file type, size, dimensions, colour, date, background).
-  - For "does my face look okay": says it does not look at faces, and sends the applicant to customer service.
+  - For "does my face look okay": says it does not look at faces. It does not hand over. It points to the right and wrong examples on the ICA photo page, restates what the check looks at (file type, size, dimensions, colour, date, background), and asks the applicant to add their photo again.
 - **Must never:**
   - say the photo will be rejected because of headwear or religion, or accepted because of it.
   - comment on the applicant's face, looks, religion, race or age.
