@@ -129,7 +129,7 @@ Full detail is in `day3-build/operating-model.md`. Roles only, no names. Entries
 
 **Call: Continue.**
 
-**Why:** In 11 scripted runs the guide broke none of the four deal-breaker rules, and the open issues are decisions and tests still to do, not signs the idea cannot work. The runs were written and scored by the same person, so human graders still have to confirm this.
+**Why:** In 12 scripted runs the guide broke none of the four deal-breaker rules, and the open issues are decisions and tests still to do, not signs the idea cannot work. The runs were written and scored by the same person, so human graders still have to confirm this.
 
 ## Open issues
 
@@ -145,7 +145,7 @@ Full lists are in `day3-build/ai-prd.md` (Open decisions) and `day3-build/operat
 
 **Blocks go-live:**
 
-- **Not enough evidence yet.** 11 of the 20 runs are done. All are scripted walk-throughs written and scored by the same person. No human grader has scored any run. The clarity score averages about 3.7, under the bar of 4.
+- **Not enough evidence yet.** 12 of the 20 runs are done, and all 13 cases have run (`day4-measure/eval-results.md`). All are scripted walk-throughs written and scored by the same person. No human grader has scored any run. The clarity score averages about 3.8, under the bar of 4. The plan to close this gap is in `day4-measure/eval-plan.md`.
 - **The return rate target (under 17%) cannot be shown with made-up data.** It needs a real pilot, which is the Business owner's decision.
 - **An ICA officer cannot yet see the agent's result or report a wrong one.** The "on hold" switch, the monitoring alert and the API check do not exist. (operating model 13, 14 and 19)
 - **Not done:** the accessibility test, the wording check by each language group, and the security review.
