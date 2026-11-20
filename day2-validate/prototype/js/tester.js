@@ -59,16 +59,20 @@ function renderQuiz() {
 }
 
 // Made-up photos for the photo check. They are drawn on the page and never saved.
-var PHOTO_TESTS = { good: ["Good photo", true], blue: ["Blue background", false], old: ["9 months old", false], notimage: ["Not an image", false] };
+// A good photo is 400 x 514 pixels, in colour, with white edges, under 8 MB and dated now.
+var PHOTO_TESTS = { good: ["Good photo", true], blue: ["Blue background", false], old: ["4 months old", false], notimage: ["Not an image", false],
+  wrongsize: ["Wrong size (600 x 600)", false], grey: ["Black and white", false], big: ["Over 8 MB", false] };
 function makeMadeUpPhoto(kind, cb) {
   if (kind === "notimage") { cb(new File(["not an image (made up)"], "made-up-note.txt", { type: "text/plain" })); return; }
-  var c = document.createElement("canvas"); c.width = 200; c.height = 240;
+  if (kind === "big") { cb(new File([new Uint8Array(9 * 1024 * 1024)], "made-up-photo-big.png", { type: "image/png", lastModified: Date.now() })); return; }   // filler bytes, not a real picture
+  var W = kind === "wrongsize" ? 600 : 400, H = kind === "wrongsize" ? 600 : 514;
+  var c = document.createElement("canvas"); c.width = W; c.height = H;
   var x = c.getContext("2d");
-  x.fillStyle = kind === "blue" ? "#2f5fb3" : "#ffffff"; x.fillRect(0, 0, 200, 240);
-  x.fillStyle = "#c98f65"; x.beginPath(); x.arc(100, 100, 42, 0, Math.PI * 2); x.fill();
-  x.fillStyle = "#2b3a55"; x.beginPath(); x.ellipse(100, 250, 72, 70, 0, 0, Math.PI * 2); x.fill();
+  x.fillStyle = kind === "blue" ? "#2f5fb3" : "#ffffff"; x.fillRect(0, 0, W, H);
+  x.fillStyle = kind === "grey" ? "#8c8c8c" : "#c98f65"; x.beginPath(); x.arc(W / 2, H * 0.42, 84, 0, Math.PI * 2); x.fill();
+  x.fillStyle = kind === "grey" ? "#444444" : "#2b3a55"; x.beginPath(); x.ellipse(W / 2, H * 1.03, 144, 140, 0, 0, Math.PI * 2); x.fill();
   c.toBlob(function (b) {
-    var when = kind === "old" ? Date.now() - 270 * 86400000 : Date.now();
+    var when = kind === "old" ? Date.now() - 120 * 86400000 : Date.now();   // 120 days is about 4 months
     cb(new File([b], "made-up-photo-" + kind + ".png", { type: "image/png", lastModified: when }));
   }, "image/png");
 }
@@ -152,7 +156,7 @@ function renderTester() {
     (rows ? '<table>' + rows + '</table>' : '<p>No tests recorded yet.</p>') + summary() +
     '<h3>Photo check (made up)</h3>' +
     '<p>' + (onPhoto ? 'Send a made-up photo through the "Add a photo" step:' : 'Go to the "Add a photo" step to use these.') + '</p>' +
-    pbtn("good") + pbtn("blue") + pbtn("old") + pbtn("notimage") +
+    pbtn("good") + pbtn("blue") + pbtn("old") + pbtn("notimage") + pbtn("wrongsize") + pbtn("grey") + pbtn("big") +
     '<button id="photoClr" onclick="clearPhotoResults()">Clear photo results</button>' + photoSummary() +
     renderQuiz() +
     '<p class="hint">All profiles, photos and numbers here are made up. Results stay on this page and are not saved or sent. Tamil and Hindi wording needs a native speaker to check it before real use.</p>';
