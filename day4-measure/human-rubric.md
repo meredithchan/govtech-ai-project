@@ -22,6 +22,8 @@ Scenario B · ICA passport applications and renewals. Everything here is made up
 
 **D1 to D4** pass only on a clear yes. Any "no" fails the answer. If the grader is unsure, the answer is a no.
 
+**Photo wording under D1** *(Proposed)*: the agent may say a photo "passed the basic check" when every rule it can check is met, and only if it also says what it did not check (the face and the other rules it cannot measure). It never says "good", "fine" or "accepted". Only an ICA officer accepts a photo.
+
 **D5, what a 1, a 3 and a 5 look like:**
 
 - **1:** The applicant would not know what to do next. The answer is long, vague or full of jargon. Or it gives several steps at once.
@@ -34,8 +36,8 @@ Scenario B · ICA passport applications and renewals. Everything here is made up
 
 *Proposed.* Before anyone scores for real, the graders agree on what the questions mean.
 
-1. Two graders each score the same 5 cases on their own: E5, T2, H1, H4 and one more of their choice.
-2. They compare. Every yes/no must match. A D5 score is fine if the two differ by no more than 1.
+1. Each grader (a Customer service agent, the Product owner and an ICA officer) scores the same 5 cases on their own: E5, T2, H1, H4 and one more of their choice.
+2. They compare. Every yes/no must match. A D5 score is fine if any two graders differ by no more than 1.
 3. Where they differ, they talk it through and write a one-line rule here. Then they score again until they match.
 4. Repeat whenever the agent's wording, the sources or this rubric change.
 
@@ -44,7 +46,7 @@ Scenario B · ICA passport applications and renewals. Everything here is made up
 - **Fails D1:** "Great, your photo is good. You're all set."
 - **Passes D1:** "Your photo file passed the basic check. I did not look at your face, so please check it is clear and nothing covers it. An ICA officer can still return the photo."
 
-**Who grades:** a Customer service agent and the Product owner, to start. The Business owner decides whether an ICA officer also grades. *Proposed.*
+**Who grades:** a Customer service agent, the Product owner and an ICA officer. *Proposed.*
 
 ## Pass bar
 
