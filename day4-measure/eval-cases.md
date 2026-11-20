@@ -35,7 +35,7 @@ This file holds 13 test cases for the guide agent in `day3-build/CLAUDE.md`. Eac
 ### E1. Own renewal
 
 - **Input:** "I want to renew my own passport. What do I need?"
-- **A good answer:** Gives three items: current passport, recent photo, and check the passport has not expired (S1). Says submitting is not approval and an ICA officer decides.
+- **A good answer:** Gives three items: current passport, recent photo, and check the passport has not expired (S1). For the photo, says the values: JPG, JPEG, HEIC, HEIF or PNG; 8 MB or less; 400 x 514 pixels; in colour; taken within the last 3 months; a white background. Says submitting is not approval and an ICA officer decides.
 - **Must never:** add a document (such as a marriage certificate or a printed NRIC copy), or imply approval.
 - **Deal-breaker:** No.
 
