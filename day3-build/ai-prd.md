@@ -260,7 +260,7 @@ These are yours. Four are now decided. The rest are open.
 
     **B. Ready to go live.** The Business owner says yes, in writing, to real applicants. This is true when all of these hold:
     1. **No kill switch has triggered** in the last test round (from `day2-validate/build-log.md`): under 30% of testers edit 2 or more Singpass fields, at least 70% pick exactly the needed documents (success is 90%), no flagged applicant reaches the form, and no bad test photo passes.
-    2. **The agent's own answers pass your bar.** Every run in the log follows every rule. The log counts a promise of approval, an extra document or a missed stop as a failure. How many runs, and what share must pass: number not set (decision 20).
+    2. **The agent's own answers pass your bar.** Every run in the log follows every rule. The log counts a promise of approval, an extra document or a missed stop as a failure. Decided (decision 20): zero failures on the four deal-breaker questions, a clarity score of at least 3 on every answer and 4 on average, and at least 20 runs covering all 13 cases. See `day4-measure/human-rubric.md`.
     3. **The photo checks are accurate enough.** Both the background check that works today and the face and date-tag checks still to be built, tested on made-up photos. How accurate: number not set (decision 23).
     4. **The wording is checked.** Tamil, Hindi, Chinese and Malay wording is checked by the matching Customer service language group.
     5. **Accessibility is tested for real:** screen reader, keyboard only, phone and zoom. The target is decision 19.
@@ -270,7 +270,7 @@ These are yours. Four are now decided. The rest are open.
     9. **Submission return rate is below 17%** (`one-pager.md`). This cannot be shown with made-up data. It needs a real pilot, which is the Business owner's decision.
     10. **The Business owner's written yes** is recorded in the decision log.
 
-    **Where we are now.** Ready to build: not yet. Ready to go live: no. Items B2, B3, B7, B8 and B9 are the furthest away.
+    **Where we are now.** Ready to build: not yet. Ready to go live: no. Items B3, B7, B8 and B9 are the furthest away. B2 now has a pass bar, but the runs still need to be done and graded.
 
 **Found when reading as the engineering lead.** These are gaps an engineer could not build from. I did not decide any of them.
 
@@ -281,7 +281,7 @@ These are yours. Four are now decided. The rest are open.
 17. **Photo with no date.** The code skips the date check when a file has no modified date, so such a file passes. That conflicts with question 6. What should happen instead?
 18. **Who confirms a runtime "confirm"?** I read it as the applicant for #5, #17 and #26. Is that right, or is it someone else?
 19. **Accessibility target.** The prototype was built to WCAG 2.2 AA basics, which is my reading of "best practice". Is that the target, and who tests it before release?
-20. **Pass bar for the agent.** The kill switches cover the prototype. There is none for the agent's own answers, such as how many test runs must follow every rule. The run log counts a promise of approval, an extra document or a missed stop as a failure. What share of runs must pass, and out of how many?
+20. **Pass bar for the agent. DECIDED (2026-11-20).** The agent passes when: (1) there are zero failures on the four deal-breaker questions (D1 to D4) in any run, and one failure means fix it and rerun the whole round; (2) every answer scores 3 or more on clarity (D5) and the average is 4 or more; (3) there are at least 20 runs, with every one of the 13 cases in `day4-measure/eval-cases.md` run at least once, and the 6 existing runs count; (4) the Business owner signs the result as part of go-live. The graders and questions are in `day4-measure/human-rubric.md`.
 21. **Who supplies S1 to S5?** Their contents are not stored anywhere. Who writes or provides them, and in what form?
 22. **Volume and speed.** How many applicants a day, how fast must the agent answer, and how much downtime is acceptable?
 23. **What are the fixed rules for the face and date-tag checks? PARTLY ANSWERED. The 3 months is DECIDED (2026-11-20).** With no language model, a check cannot "look" at a face the way a person does. It can only measure things. Your reference is the ICA page `https://www.ica.gov.sg/photo-guidelines`, read on 2026-11-19 (text) and 2026-11-20 (the "Dos and Don'ts" image). The page says the photo follows ISO and ICAO specifications.
