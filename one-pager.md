@@ -126,5 +126,28 @@ Full detail is in `day3-build/operating-model.md`. Roles only, no names. Entries
 ## Metrics plan and stop line
 ## Evals and gates
 ## Decision: continue, pivot or stop
+
+**Call: Continue.**
+
+**Why:** In 11 scripted runs the guide broke none of the four deal-breaker rules, and the open issues are decisions and tests still to do, not signs the idea cannot work. The runs were written and scored by the same person, so human graders still have to confirm this.
+
 ## Open issues
+
+Full lists are in `day3-build/ai-prd.md` (Open decisions) and `day3-build/operating-model.md` (Open decisions). None of these is decided yet.
+
+**Blocks the build:**
+
+- **Photo rules a fixed rule cannot check.** 9 of the ICA photo page's 13 rules have no check: expression, hair and shoulders, head gear, glasses, eyes, frontal view, flipped, edited and brightness. The agent only reminds the applicant of them. (PRD 23)
+- **Numbers to set.** Tries before customer service (5), what to do with a photo that has no date (6 and 17), a Singpass retry limit (15), a kill switch for Singpass failing to connect (9), draft expiry (16) and autosave (4).
+- **Child details from Singpass.** It is not known whether Singpass sends the child's name and date of birth, or who confirms it. (14)
+- **Routes with no screen.** No Singpass and cannot read the form have no route yet. They only hand over to customer service. (7)
+- **S1 to S5 are not stored anywhere**, and no source gives a way to reach customer service. (21)
+
+**Blocks go-live:**
+
+- **Not enough evidence yet.** 11 of the 20 runs are done. All are scripted walk-throughs written and scored by the same person. No human grader has scored any run. The clarity score averages about 3.7, under the bar of 4.
+- **The return rate target (under 17%) cannot be shown with made-up data.** It needs a real pilot, which is the Business owner's decision.
+- **An ICA officer cannot yet see the agent's result or report a wrong one.** The "on hold" switch, the monitoring alert and the API check do not exist. (operating model 13, 14 and 19)
+- **Not done:** the accessibility test, the wording check by each language group, and the security review.
+- **Not confirmed:** the real Business owner team (11), the ICA page photo values, and volume and speed (22).
 
