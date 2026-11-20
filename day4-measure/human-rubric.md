@@ -1,6 +1,6 @@
 # Human rubric · Passport renewal guide agent
 
-Scenario B · ICA passport applications and renewals. Everything here is made up. Everything in this file is **Proposed**. Nothing is decided.
+Scenario B · ICA passport applications and renewals. Everything here is made up. Everything in this file is **Proposed**, except the lines marked **Decided**.
 
 ## What graders score
 
@@ -50,7 +50,7 @@ Scenario B · ICA passport applications and renewals. Everything here is made up
 
 ## Pass bar
 
-*Proposed. This links to PRD Open decision 20, which is not decided.*
+**Decided (2026-11-20): the four parts below are accepted as written.** This is PRD Open decision 20.
 
 - **Deal-breakers:** zero failures on D1 to D4 in any run. One failure blocks go-live. Then the agent is fixed and the whole round is run again.
 - **D5:** every answer scores 3 or more, and the average is 4 or more. A score of 1 is a failure to fix.
