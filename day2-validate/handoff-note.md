@@ -45,7 +45,7 @@ An applicant signs in with a made-up Singpass, says who the passport is for, tic
 
 ## What would worry an engineer
 
-1. The photo check is a stand-in. It looks at file type, size, file date and edge colour. It cannot read the date inside a photo or judge a face. From Day 3, the target values are the ICA photo page values (8 MB, 400 x 514 pixels, five file types, colour). This prototype code still uses 5 MB and any image type.
+1. The photo check is a stand-in. It checks file type, size, 400 x 514 pixels, colour, file date (3 months) and edge colour. It cannot read the date inside a photo or judge a face. The values (five file types, 8 MB, 400 x 514 pixels, colour, 3 months) come from the ICA photo page, and the Business owner confirms them before go-live. The code now follows them. Most of the page's other 13 photo rules (expression, glasses, eyes, frontal view and so on) are not checked.
 2. The files are split, but they share one global scope and one state object. The script order in `index.html` matters. There are no automated tests.
 3. Two things are kept in step by hand: the quiz answer key and `context-skill.md`, and the wording across five languages.
 4. Drafts sit in the browser's local storage. That is fine with made-up data and a privacy problem with real data.
