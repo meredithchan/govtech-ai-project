@@ -15,7 +15,7 @@ This panel is the rule sheet for the photo job. The photo job is one job inside 
 1. The background is white.
 2. The top half of the body is visible, and nothing covers the face.
 3. The face is clear, not blurred.
-4. The photo is recent. It reads the date tag in the photo, and the date is no more than 6 months before submission.
+4. The photo is recent. It reads the date tag in the photo, and the date is no more than 3 months before submission.
 
 **What it can use:**
 
@@ -51,7 +51,7 @@ The photo job could do these things. They are ranked by how ready they are, not 
 
 The agent may do these without asking anyone.
 
-- Say a made-up photo is the wrong file type (not JPG, JPEG, HEIC, HEIF or PNG), over 8 MB, not 400 x 514 pixels, not in colour, or older than 6 months, and ask for another. For a wrong size, say how to fix it. It never resizes the photo itself.
+- Say a made-up photo is the wrong file type (not JPG, JPEG, HEIC, HEIF or PNG), over 8 MB, not 400 x 514 pixels, not in colour, or older than 3 months, and ask for another. For a wrong size, say how to fix it. It never resizes the photo itself.
 - Say the background is not white, and ask for another photo in front of a plain white wall.
 - Say the check could not read the photo, and ask for another.
 - Ask the applicant to try again, up to two more times.

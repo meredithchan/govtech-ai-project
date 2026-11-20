@@ -42,7 +42,7 @@ All tools are made up. The agent has no other tools.
 | Made-up Singpass sign in | Returns a made-up profile, an error, or part of a profile | No real Singpass. Nothing is sent out. |
 | Document list | Needed documents for self, or for a parent renewing for a child | Source S1. |
 | Field checker | Checks name, date of birth, NRIC and passport number | Made-up formats only. |
-| Photo checker | Checks file type (JPG, JPEG, HEIC, HEIF or PNG), size 8 MB or less, 400 x 514 pixels, in colour, file date within 6 months, and mostly white edges | Cannot judge a face or read the date inside a photo. Values from the ICA photo page. |
+| Photo checker | Checks file type (JPG, JPEG, HEIC, HEIF or PNG), size 8 MB or less, 400 x 514 pixels, in colour, file date within 3 months, and mostly white edges | Cannot judge a face or read the date inside a photo. Values from the ICA photo page. |
 | Draft save | Keeps progress in the applicant's own browser | Never keeps the photo. |
 | Customer service hand-over | Tells the applicant to contact customer service | The agent cannot contact anyone itself. |
 | Run log | Writes one entry per session | Field names and reasons only. Never values or photos. |
@@ -56,7 +56,7 @@ All tools are made up. The agent has no other tools.
 - **No language model, now or in the build (decided).** The agent is fixed rules and fixed wording. Every screen and message in the prototype is already fixed code. What the prototype proves is the rules, not an agent's behaviour.
 - **Data handled.** Six fields, all made up: `name`, `dob`, `nric`, `passportNo`, `childName`, `childDob`. Someone renewing their own passport sees four: `name`, `dob`, `nric`, `passportNo`. A parent sees five: the child's name and date of birth, plus the parent's own name and NRIC and the child's passport number. The prototype assumes Singpass sends all six, including the child's details. Whether the real Singpass does is unknown.
 - **Singpass result.** One of: connected (all fields), partial (some fields empty), down (no fields) or flagged. A retry replays the case. The prototype puts no limit on retries. What the applicant typed beats what Singpass sends.
-- **Photo checker.** **Target (decided: page values):** JPG, JPEG, HEIC, HEIF or PNG; 8 MB or less; exactly 400 x 514 pixels; in colour; file-modified date within 6 months. **The prototype code does not do this yet.** It accepts any image type, allows 5 MB, and does not check size in pixels or colour. The 6-month rule and the background test below are as the prototype has them. If a file has no modified date, that check is skipped, so such a file passes it. The background test shrinks the picture to 48 by 48 pixels and looks at the top rows and the left and right edges, 6 pixels deep. The bottom is skipped. A pixel counts as white when each colour value is 200 or more and the three values are within 30 of each other. At least 85% white passes. Nothing else is checked.
+- **Photo checker.** **Target (decided: page values):** JPG, JPEG, HEIC, HEIF or PNG; 8 MB or less; exactly 400 x 514 pixels; in colour; file-modified date within 3 months. **The prototype code now does this** (updated 2026-11-20). The 3 months is checked against the file date, not the date inside the photo. The background test below is as the prototype has it. If a file has no modified date, that check is skipped, so such a file passes it. The background test shrinks the picture to 48 by 48 pixels and looks at the top rows and the left and right edges, 6 pixels deep. The bottom is skipped. A pixel counts as white when each colour value is 200 or more and the three values are within 30 of each other. At least 85% white passes. Nothing else is checked.
 - **Languages.** Five, chosen by the applicant and saved in the draft. If a word is missing in a language, English is shown. All five currently have every word.
 - **Drafts.** Saved in the browser on every change, under one made-up key, with no expiry. A draft is deleted on submit or when the applicant starts again. The photo is never in it.
 - **Submit.** Today it clears the draft and shows "Submitted. Not approved yet." Nothing is sent anywhere.
@@ -194,8 +194,8 @@ These are rules the agent must follow. All are made up. The sources are in `day2
 - The background must be white.
 - The top half of the body must be visible and nothing may cover the face.
 - The face must be clear.
-- The photo must be recent, with a date tag no more than 6 months before submission.
-- Exactly 6 months passes in the prototype. This is unconfirmed.
+- The photo must be recent, with a date tag no more than 3 months before submission (the ICA page image says "taken within the last 3 months").
+- Exactly 3 months passes in the prototype. This is unconfirmed.
 
 **Field rules:** the made-up formats under Context and memory. All fields are required.
 
@@ -244,7 +244,7 @@ These are yours. Four are now decided. The rest are open.
 3. **Build the face and date-tag checks? DECIDED: yes, as fixed rules.** Open decision 23 asks what the rules are.
 4. **Autosave.** The prototype saves a draft as the applicant types. #17 proposes confirm. Which do you want?
 5. **Three tries.** The "three failures, then customer service" rule and the "two more photo tries" are numbers I chose. Keep, change or drop?
-6. **Photo date rule.** Does exactly 6 months pass? Is a photo with no date tag asked for again, or sent to customer service?
+6. **Photo date rule.** Does exactly 3 months pass? Is a photo with no date tag asked for again, or sent to customer service?
 7. **Edge cases with no screen:** no Singpass, cannot leave the country, a child in the state's care, and an applicant who cannot read forms. Build a route for each, or keep the hand-over to customer service?
 8. **Business rules.** Save the longer `business-rules.md` draft to the repo, or leave it in chat?
 9. **Singpass kill switch.** The build log sets the 30% edit trigger but no number for Singpass failing to connect. Set one?
@@ -284,26 +284,39 @@ These are yours. Four are now decided. The rest are open.
 20. **Pass bar for the agent.** The kill switches cover the prototype. There is none for the agent's own answers, such as how many test runs must follow every rule. The run log counts a promise of approval, an extra document or a missed stop as a failure. What share of runs must pass, and out of how many?
 21. **Who supplies S1 to S5?** Their contents are not stored anywhere. Who writes or provides them, and in what form?
 22. **Volume and speed.** How many applicants a day, how fast must the agent answer, and how much downtime is acceptable?
-23. **What are the fixed rules for the face and date-tag checks? PARTLY ANSWERED.** With no language model, a check cannot "look" at a face the way a person does. It can only measure things. Your reference is the ICA page `https://www.ica.gov.sg/photo-guidelines`, read on 2026-11-19. The page says the photo follows ISO and ICAO specifications.
+23. **What are the fixed rules for the face and date-tag checks? PARTLY ANSWERED. The 3 months is DECIDED (2026-11-20).** With no language model, a check cannot "look" at a face the way a person does. It can only measure things. Your reference is the ICA page `https://www.ica.gov.sg/photo-guidelines`, read on 2026-11-19 (text) and 2026-11-20 (the "Dos and Don'ts" image). The page says the photo follows ISO and ICAO specifications.
 
     **What the page states, and the fixed rule it allows** (all can be checked by measuring the file, no face needed):
 
     | Page says | Fixed rule | Measurable? | Today's prototype |
     |---|---|---|---|
-    | File types JPG, JPEG, HEIC, HEIF and PNG | The file type must be one of the five. Anything else: ask for another photo. | Yes | Accepts any image type. **Differs.** |
-    | Maximum file size 8 MB | Over 8 MB: ask for another photo. | Yes | Limit is 5 MB. **Differs.** |
-    | 400 x 514 pixels when uploaded online | Width and height must be exactly 400 x 514. Otherwise say the size is wrong and ask for another. | Yes | Not checked. **New.** |
-    | "A new, coloured photograph" | A black and white or greyscale photo fails. | Yes (colour values) | Not checked. **New.** |
-    | "New" | Needs a number of months to measure. The page gives none. | Only with a number | Uses 6 months from the file date. The number is made up. |
+    | File types JPG, JPEG, HEIC, HEIF and PNG | The file type must be one of the five. Anything else: ask for another photo. | Yes | Accepts the five types. **Matches.** |
+    | Maximum file size 8 MB | Over 8 MB: ask for another photo. | Yes | Limit is now 8 MB. **Matches.** |
+    | 400 x 514 pixels when uploaded online | Width and height must be exactly 400 x 514. Otherwise say the size is wrong and ask for another. | Yes | Checked. **Matches.** |
+    | "A new, coloured photograph" | A black and white or greyscale photo fails. | Yes (colour values) | Checked. **Matches.** |
+    | "Taken within the last 3 months" (page image) | The file date must be no more than 3 months before today. | Yes, by file date | Checks 3 months by file date. **Matches.** The date tag inside the photo is not read. |
     | Only resizing is allowed. No changing facial features. No photo filters. | Cannot be measured by a fixed rule. | No | Not checked. |
     | Selfies usually do not meet the requirements | Cannot be measured by a fixed rule. | No | Not checked. |
 
-    **What the page text does not state** (its "Dos and Don'ts" section is an image, so this was not read). I have written no rule for these:
+    **The page's "Dos and Don'ts" image** has 13 rules, each with a wrong and a right example. It was read on 2026-11-20. Which of them a fixed rule can measure:
 
-    - Background colour and how plain it must be. The prototype's white-edge test is made up.
-    - Head position and size in the frame.
-    - Expression, glasses, headwear, lighting and shadows.
-    - What counts as "new".
+    | # | Rule on the page | Measure with a fixed rule? | Prototype |
+    |---|---|---|---|
+    | 1 | Even brightness | Roughly, not reliably | Not checked |
+    | 2 | Taken within the last 3 months | Yes, by file date | Checked |
+    | 3 | Neutral expression, mouth closed | No | Not checked |
+    | 4 | Clear, sharp focus, not pixelated | Roughly (a blur measure) | Not checked |
+    | 5 | Shoulders and hair fully visible | No | Not checked |
+    | 6 | Background white in colour | Yes (the white-edge test, which is made up) | Checked, made-up test |
+    | 7 | Head gear or attire dark in colour against a white background | No | Not checked |
+    | 8 | Spectacles clear and untinted, eyes visible | No | Not checked |
+    | 9 | Non-coloured contact lenses, no red eye | No | Not checked |
+    | 10 | Eyes fully visible | No | Not checked |
+    | 11 | Full frontal view, eyes looking at the camera | No | Not checked |
+    | 12 | Not distorted or flipped | No | Not checked |
+    | 13 | Original photo, not altered by software or an app | No | Not checked |
+
+    Still not stated anywhere: head size and position in the frame, and lighting and shadows beyond "even brightness".
 
     **What a fixed rule cannot do.** Judge whether the face is clear, covered, or the right size in the frame. Doing that needs a face detector or an image model, and you decided on fixed rules. So the face part of the photo job is not covered by these rules. The agent says it did not look at the face, as now.
 
@@ -317,6 +330,6 @@ These are yours. Four are now decided. The rest are open.
     6. If every step passes, say what was checked and what was not (the face, the head position, glasses and lighting). Never say the photo is good, fine or accepted, as in `day3-build/CLAUDE.md`.
     7. A failed photo gets up to two more tries. After three fails, hand over to Customer service.
 
-    **How accurate must it be?** Every rule above is a yes or no on a number, so it should be right every time. What the page does not state (background, head position, "new") has no rule yet. Whether to use the page values is decision 25.
+    **How accurate must it be?** Every rule above is a yes or no on a number, so it should be right every time. The rules a fixed rule cannot measure (rules 3, 5 and 7 to 13 above) have no check. The agent says it did not check them. Whether to use the page values is decision 25.
 24. **Row 4 setting.** It moved from block to auto because the checks are now to be built. Should it be confirm, so the applicant says yes before a face result is shown?
-25. **Page values or made-up values? DECIDED: use the page values** (file types, 8 MB, 400 x 514 pixels, colour). The Business owner confirms them before go-live. The prototype code and its five-language error wording still need to change, which is not done yet. The ICA page gives 8 MB, 400 x 514 pixels and five file types. Your files use 5 MB and any image type, and say every number is made up. Should the agent use the page values, keeping them as a reference that the Business owner confirms? Using real page values is also a change from "made-up numbers only", so this is your call.
+25. **Page values or made-up values? DECIDED: use the page values** (file types, 8 MB, 400 x 514 pixels, colour, and 3 months from the page image). The Business owner confirms them before go-live. The prototype photo code and its English error wording now follow them (2026-11-20). The other four languages show English for the changed messages. The ICA page gives 8 MB, 400 x 514 pixels and five file types. Your files use 5 MB and any image type, and say every number is made up. Should the agent use the page values, keeping them as a reference that the Business owner confirms? Using real page values is also a change from "made-up numbers only", so this is your call.

@@ -69,7 +69,7 @@ The Singpass cases in the tester view are: details correct, one detail wrong, de
 - **Nothing is sent.** There is no `fetch` or form post. The one outside request is the Inter font from Google Fonts. The build log says nothing leaves the browser, so this needs fixing or stating.
 - **Drafts** go to the browser's local storage under one key, on this device only. Step, answers, ticks, language and the Singpass result are kept. The photo is never kept. Submitting deletes the draft. A draft resumed at the last step sends the applicant back to re-add the photo.
 - **Singpass is fake.** `singpassReturn()` returns one of the made-up profiles. Nothing calls a real service.
-- **Photo check is basic.** It checks file type, a 5 MB limit, the file's modified date (not the date inside the photo), and whether at least 85% of the top and side edge pixels are near white. It cannot judge a face. The screen says so.
+- **Photo check is basic.** It checks file type (JPG, JPEG, HEIC, HEIF or PNG), 8 MB, exactly 400 x 514 pixels, colour, the file's modified date within 3 months (not the date inside the photo), and whether at least 85% of the top and side edge pixels are near white. The first five values come from the ICA photo page. The white-edge test is made up. It cannot judge a face. The screen says so.
 - **Formats (made up):** NRIC is S or T, 7 digits, a letter. Passport number is a letter, 7 digits, a letter. Names are letters, spaces and `. ' - /`, at least 2. Dates must be real and in the past. All fields are required.
 - **Accessibility:** labels linked to inputs, focus moves to the heading on each step, skip link, errors and draft status announced, step-named "Done" buttons, labelled progress bar, `lang` set, reduced motion respected, disabled button contrast 5.4 to 1. Checked in code and by contrast numbers only. No screen reader, keyboard-only or phone test.
 - **Two hand-kept copies:** the quiz answer key must match `context-skill.md`, and every wording change must be made in all five languages (checked once, not enforced).
@@ -78,7 +78,7 @@ The Singpass cases in the tester view are: details correct, one detail wrong, de
 
 **Assumptions built into the code** (all made up, none from a real ICA rule):
 
-- "Recent" photo means the file date is within 6 months. Exactly 6 months passes.
+- "Recent" photo means the file date is within 3 months. Exactly 3 months passes.
 - "White background" means 85% of edge pixels near white. The bottom edge is skipped because shoulders show there.
 - "S, T, etc" in the NRIC rule means only S and T.
 - "Done" means the applicant clicked it. The code does not check that a document is good or unexpired.

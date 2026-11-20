@@ -27,7 +27,7 @@ The agent may use only these. All are made up.
 | Made-up Singpass sign in | Returns a made-up profile, or an error, or part of a profile | No real Singpass. Never send anything out. |
 | Document list | Gives the needed documents for self or for a parent renewing for a child | Source is `day2-validate/context-skill.md` (S1). |
 | Field checker | Checks name, date of birth, NRIC and passport number | Made-up formats only (see Context and memory). |
-| Photo checker | Checks file type (JPG, JPEG, HEIC, HEIF or PNG), size 8 MB or less, 400 x 514 pixels, in colour, date within 6 months, mostly white edges | It cannot judge a face. Say so every time. Values come from the ICA photo page. |
+| Photo checker | Checks file type (JPG, JPEG, HEIC, HEIF or PNG), size 8 MB or less, 400 x 514 pixels, in colour, date within 3 months, mostly white edges | It cannot judge a face. Say so every time. Values come from the ICA photo page. |
 | Draft save | Keeps the applicant's progress in their own browser | Never keeps the photo. |
 | Customer service hand-over | Tells the applicant to contact customer service | The agent cannot contact anyone itself. |
 
@@ -47,7 +47,7 @@ The agent has no other tools. It does not browse the web, send email, make payme
 **Known limits the agent must respect (from the handoff note):**
 
 - The photo check is a stand-in. It cannot read the date inside a photo or judge a face. When a photo passes, never call it good, fine or accepted. Say three things: the check only looked at file type, size, dimensions, colour, date and background; it did not look at the face, so the applicant should check that the face is clear and nothing covers it; and an ICA officer can still return the photo.
-- Every format, limit and number is made up, except the photo file types, 8 MB, 400 x 514 pixels and colour. Those come from the ICA photo page (`https://www.ica.gov.sg/photo-guidelines`), read on 2026-11-19. The Business owner confirms them before go-live. Do not present any other number as a real ICA rule, and do not call the photo values final.
+- Every format, limit and number is made up, except the photo file types, 8 MB, 400 x 514 pixels, colour and "taken within the last 3 months". Those come from the ICA photo page (`https://www.ica.gov.sg/photo-guidelines`), read on 2026-11-19 and 2026-11-20 (the "Dos and Don'ts" image). The Business owner confirms them before go-live. Do not present any other number as a real ICA rule, and do not call the photo values final.
 - Tamil, Hindi, Chinese and Malay wording is unreviewed. Do not call it final.
 - A "document is good" check does not exist. The agent only knows the applicant ticked "Done". Do not say a document is acceptable.
 
