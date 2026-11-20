@@ -67,7 +67,7 @@ function render() {
     h = head(t("photoTitle")) +
       (state.photoNote ? '<div class="note">' + esc(t("resumePhoto")) + '</div>' : "") +
       '<div class="frow"><label class="f" for="photoFile">' + esc(t("photoPick")) + '</label>' + exLink("photo") + '</div>' +
-      '<input type="file" id="photoFile" accept="image/*" onchange="onPhotoPick(this)">' +
+      '<input type="file" id="photoFile" accept="image/jpeg,image/png,image/heic,image/heif,.jpg,.jpeg,.png,.heic,.heif" onchange="onPhotoPick(this)">' +
       '<p class="hint">' + esc(t("photoHint")) + ' ' + esc(t("photoLimit")) + '</p>' +
       '<div id="photoStatus" role="status" aria-live="polite">' + photoStatusHtml() + '</div>' +
       '<p class="hint" id="nextWhy"' + (ok ? ' style="display:none"' : "") + '>' + esc(t("photoWhy")) + '</p>' +
